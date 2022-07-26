@@ -98,9 +98,11 @@ function loadCategories() {
 
 class UIManager {
     body;
+    categories;
 
-    constructor() {
+    constructor(categories = null) {
         this.body = document.body;
+        this.categories = categories;
     }
 
     showSplashScreen() {
@@ -126,6 +128,55 @@ class UIManager {
         splashScreen.appendChild(splashScreenSubtitle);
         splashScreen.appendChild(splashScreenButton);
         this.body.appendChild(splashScreen);
+
+        // Add Event Listeners
+        splashScreenButton.addEventListener('click', () => {
+            this.body.removeChild(splashScreen);
+            this.showCategoryScreen(this.categories);
+        });
+    }
+
+    showCategoryScreen(categories) {
+        
+        // Element Creation
+        let categoryScreen = document.createElement('div');
+        let categoryScreenTitle = document.createElement('h1');
+        let categoryScreenSubtitle = document.createElement('h2');
+        
+        // Category Creation
+
+        if(categories != null) {
+            for(const category in categories) {
+                let categoryButton = document.createElement('button');
+                categoryButton.textContent = categories[category].categoryName;
+                categoryButton.classList.add('category');
+                categoryScreen.appendChild(categoryButton);
+            }
+        }
+
+        // Add Classes
+        categoryScreen.classList.add('categoryScreen');
+        categoryScreenTitle.classList.add('categoryScreen__title');
+        categoryScreenSubtitle.classList.add('categoryScreen__subtitle');
+
+        // Add Text and Content
+
+        categoryScreenTitle.textContent = "Select a Category";
+        categoryScreenSubtitle.textContent = "Click on a category to start";
+
+        // Append to Body
+        categoryScreen.appendChild(categoryScreenTitle);
+        categoryScreen.appendChild(categoryScreenSubtitle);
+        this.body.appendChild(categoryScreen);
+
+        // Add Event Listeners
+        let categoryButtons = document.querySelectorAll('.category');
+        for(const categoryButton in categoryButtons) {
+            categoryButtons[categoryButton].addEventListener('click', () => {
+                this.body.removeChild(categoryScreen);
+                this.showSongScreen(categories[categoryButton]);
+            });
+        }
     }
 }
 
