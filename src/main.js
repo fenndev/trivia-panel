@@ -92,3 +92,27 @@ function loadCategories() {
     }
     return categories;
 }
+
+
+// UIManager Class
+
+class UIManager {
+    contentDiv;
+
+    constructor() {
+        this.contentDiv = document.querySelector('.content');
+    }
+
+    showSplashScreen() {
+
+    }
+}
+
+
+
+// Main Application Loop
+
+const App = (() => {
+    const uiManager = new UIManager();
+
+})();
