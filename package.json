@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/fenndev/trivia-panel/issues"
   },
-  "homepage": "https://github.com/fenndev/trivia-panel#readme"
+  "homepage": "https://github.com/fenndev/trivia-panel#readme",
+  "devDependencies": {
+    "fs-extra": "^10.1.0"
+  }
 }
