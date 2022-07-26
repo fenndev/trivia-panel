@@ -104,7 +104,28 @@ class UIManager {
     }
 
     showSplashScreen() {
+        // Element Creation
+        let splashScreen = document.createElement('div');
+        let splashScreenTitle = document.createElement('h1');
+        let splashScreenSubtitle = document.createElement('h2');
+        let splashScreenButton = document.createElement('button');
 
+        // Add Text and Content
+        splashScreenTitle.textContent = "VGMT";
+        splashScreenSubtitle.textContent = "Video Game Music Trivia";
+        splashScreenButton.textContent = "Start";
+
+        // Add Classes
+        splashScreen.classList.add('splash');
+        splashScreenTitle.classList.add('splash__title');
+        splashScreenSubtitle.classList.add('splash__subtitle');
+        splashScreenButton.classList.add('splash__button');
+
+        // Append to Body
+        splashScreen.appendChild(splashScreenTitle);
+        splashScreen.appendChild(splashScreenSubtitle);
+        splashScreen.appendChild(splashScreenButton);
+        this.body.appendChild(splashScreen);
     }
 }
 
@@ -112,5 +133,6 @@ class UIManager {
 
 const App = (() => {
     const uiManager = new UIManager();
+    uiManager.showSplashScreen();
 
 })();
