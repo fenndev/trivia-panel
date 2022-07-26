@@ -97,18 +97,16 @@ function loadCategories() {
 // UIManager Class
 
 class UIManager {
-    contentDiv;
+    body;
 
     constructor() {
-        this.contentDiv = document.querySelector('.content');
+        this.body = document.body;
     }
 
     showSplashScreen() {
 
     }
 }
-
-
 
 // Main Application Loop
 
