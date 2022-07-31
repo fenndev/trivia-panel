@@ -49,9 +49,6 @@ class CategoryManager {
     async findAllCategories() {
         let categoryJSONFile = path.resolve(this.categoryFolder, 'categories.json');
         let categories = await fs.readJSON(categoryJSONFile);
-
-
-
     }
 
     setCurrentCategory(category) {
@@ -187,3 +184,7 @@ const App = (() => {
     uiManager.showSplashScreen();
 
 })();
+
+/* 
+
+*/
