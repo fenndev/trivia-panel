@@ -131,6 +131,22 @@ class UIManager {
             this.body.removeChild(splashScreen);
             this.showCategoryScreen(this.categories);
         });
+
+        document.body.addEventListener('keydown', (e) => this.enterEditMode(e));
+    }
+
+    hideSplashScreen() {
+        let splashScreen = document.querySelector('.splash');
+        document.body.removeChild(splashScreen);
+    }
+
+    enterEditMode(e) {
+        e.preventDefault();
+        if(e.key === 'Escape') {
+            this.hideSplashScreen();
+            this.showCategoryScreen(this.categories);
+            document.body.removeEventListener('keydown');
+        }
     }
 
     showCategoryScreen(categories) {
@@ -175,6 +191,10 @@ class UIManager {
             });
         }
     }
+
+    showEditScreen() {
+
+    }
 }
 
 // Main Application Loop
@@ -186,5 +206,6 @@ const App = (() => {
 })();
 
 /* 
+    HTML Page Structure
 
 */
