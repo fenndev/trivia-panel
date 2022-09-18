@@ -18,5 +18,10 @@
   "homepage": "https://github.com/fenndev/trivia-panel#readme",
   "devDependencies": {
     "fs-extra": "^10.1.0"
+  },
+  "dependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/uuid": "^8.3.4",
+    "uuid": "^9.0.0"
   }
 }
