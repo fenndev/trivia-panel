@@ -1,5 +1,9 @@
 class RenderManager {
-    public splashScreen: HTMLElement;
+    public splashScreen: HTMLElement | undefined;
+
+    constructor () {
+        this.renderSplashScreen();
+    }
     public renderSplashScreen() {
         // Element Creation
         let splashScreen: HTMLDivElement = document.createElement('div');
@@ -28,7 +32,9 @@ class RenderManager {
     }
 
     private hideSplashScreen() {
-        document.body.removeChild(this.splashScreen);
+        if(this.splashScreen != undefined) {
+            document.body.removeChild(this.splashScreen);
+        }
     }
 }
 

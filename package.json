@@ -2,9 +2,9 @@
   "name": "trivia-panel",
   "version": "0.0.1",
   "description": "",
-  "main": "src/index.html",
+  "main": "build/index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "rollup -c"
   },
   "repository": {
     "type": "git",
@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/fenndev/trivia-panel#readme",
   "devDependencies": {
-    "fs-extra": "^10.1.0"
+    "@rollup/plugin-typescript": "^8.5.0",
+    "fs-extra": "^10.1.0",
+    "nwjs-types": "^1.0.0",
+    "tslib": "^2.4.0"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.13",

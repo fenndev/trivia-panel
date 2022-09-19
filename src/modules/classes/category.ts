@@ -27,7 +27,7 @@ class Category {
         this.calculatePointTotal();
     }
 
-    deleteQuestion(questionID) {
+    deleteQuestion(questionID: string) {
         this.questionArray = this.questionArray.splice(this.retreiveQuestionIndex(questionID), 1);
         this.calculatePointTotal();
     }
