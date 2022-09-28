@@ -1,4 +1,4 @@
-import { Question } from "./question";
+import type { Question } from "./question";
 
 interface Category {
     categoryID: string;
@@ -7,4 +7,4 @@ interface Category {
     questions: Question[];
 };
 
-export { Category };
+export type { Category };

@@ -7,4 +7,4 @@ interface Question {
     questionID: string;
 };
 
-export { Question };
+export type { Question };
