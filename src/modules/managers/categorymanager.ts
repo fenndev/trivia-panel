@@ -1,5 +1,5 @@
-import { Category } from '../classes/Category';
-import { Question } from '../classes/Question';
+import { Category } from '../interfaces/Category';
+import { Question } from '../interfaces/Question';
 import { v4 as uuidv4 } from 'uuid';
 
 // Category Manager Class
