@@ -1,6 +1,6 @@
 <script lang='ts'>
-    import { Question } from './modules/classes/Question';
-    import { Category } from './modules/classes/Category';
+    import { Question } from './interfaces/Question';
+    import { Category } from './interfaces/Category';
     const questionObj: Question = {
         gameName : 'test',
         imagePath : 'test',
