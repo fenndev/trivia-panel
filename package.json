@@ -2,15 +2,17 @@
   "name": "trivia-panel",
   "version": "0.0.1",
   "description": "",
-  "main": "build/index.html",
+  "main": "./dist/index.html",
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fenndev/trivia-panel.git"
   },
-  "author": "Fenndev",
+  "author": "fenndev",
   "license": "GPL-3.0+",
   "bugs": {
     "url": "https://github.com/fenndev/trivia-panel/issues"
@@ -20,7 +22,21 @@
     "@rollup/plugin-typescript": "^8.5.0",
     "fs-extra": "^10.1.0",
     "nwjs-types": "^1.0.0",
-    "tslib": "^2.4.0"
+    "tslib": "^2.4.0",
+    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-html": "^0.2.4",
+    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@tsconfig/svelte": "^2.0.0",
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.16",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-sass": "^1.12.16",
+    "rollup-plugin-svelte": "^7.1.0",
+    "sass": "^1.55.0",
+    "svelte": "^3.50.1",
+    "svelte-check": "^2.0.0",
+    "svelte-preprocess": "^4.0.0",
+    "typescript": "^4.0.0"
   },
   "dependencies": {
     "@types/fs-extra": "^9.0.13",
