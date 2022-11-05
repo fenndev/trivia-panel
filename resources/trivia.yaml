@@ -8,7 +8,8 @@ config:
   isDarkTheme: true
 
 categories:
-  - name: "Classics"
+  - name: Classics
+    pointTotal: 10
     song1:
       songTitle: "Zelda's Lullaby"
       gameTitle: "The Legend of Zelda: Ocarina of Time"
@@ -30,6 +31,7 @@ categories:
       songPath: resources\cat1\song4.mp3
       imagePath: resources\cat1\song4.jpg
   - name: "Anything Goes"
+    pointTotal: 12
     song1:
       songTitle: "The Final Battle"
       gameTitle: "Final Fantasy VII"

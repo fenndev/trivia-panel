@@ -2,7 +2,7 @@ import { parse, stringify } from 'yaml';
 const path = require('path');
 const __dirname = global.__dirname;
 const fs = require('fs-extra');
-const resourceReference: string = path.resolve(__dirname, "resources\\dataStructure.yaml");
+const resourceReference: string = path.resolve(__dirname, "resources\\trivia.yaml");
 async function fetchCategories() {
     console.log("Fetching categories from " + resourceReference);
     const categories = await fs.readFile(resourceReference, 'utf8');
