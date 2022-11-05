@@ -6,7 +6,8 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "dev": "npm run build && F:/tools/nwjs/nw.exe ."
   },
   "repository": {
     "type": "git",
@@ -42,6 +43,7 @@
     "@types/fs-extra": "^9.0.13",
     "@types/nw.gui": "^0.0.21",
     "@types/uuid": "^8.3.4",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yaml": "^2.1.3"
   }
 }
