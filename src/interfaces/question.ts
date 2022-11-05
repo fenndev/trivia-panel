@@ -1,4 +1,4 @@
-interface Question {
+class Question {
     gameName: string;
     imagePath: string;
     songName: string;
