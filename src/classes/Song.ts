@@ -1,4 +1,4 @@
-class Song {
+export default class Song {
     private songTitle: string;
     private gameTitle: string;
     private songPath: string;
@@ -53,5 +53,3 @@ class Song {
         this.pointValue = pointValue;
     }
 }
-
-export default Song;
