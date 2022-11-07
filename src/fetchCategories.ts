@@ -1,4 +1,4 @@
-import { parse, stringify } from 'yaml';
+import { parse } from 'yaml';
 import Song from './classes/Song';
 import Category from './classes/Category';
 const path = require('path');
@@ -7,7 +7,6 @@ const fs = require('fs-extra');
 const resourceReference: string = path.resolve(__dirname, "resources\\trivia.yaml");
 
 async function fetchCategories() {
-    console.log("Fetching categories from " + resourceReference);
     const categories = await fs.readFile(resourceReference, 'utf8');
     const parsed = await parse(categories).categories;
     const parsedCategories: Category[] = [];
@@ -17,11 +16,7 @@ async function fetchCategories() {
 
 function parseToCategory(category: any): Category {
     const songs: Song[] = [];
-    console.log(`Parsing category ${category.name}...`);
-    category.songs.forEach(song => {
-        console.log(`Parsing song ${song.songTitle}...`);
-        songs.push(parseToSong(song));
-    });
+    category.songs.forEach(song => { songs.push(parseToSong(song)); });
     let newCategory = new Category(category.name, songs);
     if(category.pointTotal) newCategory.setPointTotal(category.pointTotal);
     else newCategory.calculatePointTotal();
