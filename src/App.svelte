@@ -1,5 +1,6 @@
 <script lang="ts"> 
-    import Categories from './Categories.svelte';
+    // import Categories from './Categories.svelte';
 </script> 
 
-<Categories />
+<!-- <Categories /> -->
+<h1>Hello world</h1>

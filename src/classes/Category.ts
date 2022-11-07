@@ -38,7 +38,10 @@ export default class Category {
     }
 
     calculatePointTotal(): number {
-        for(const song in this.songs) { this.pointTotal += this.songs[song].getPointValue() }
+        this.pointTotal = 0;
+        this.songs.forEach(song => {
+            this.pointTotal += song.getPointValue() 
+        });
         return this.pointTotal;
     };
 }

@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
     import fetchCategories from "./fetchCategories";
     let promise = fetchCategories();
 </script>
@@ -16,4 +16,4 @@
     </ul>
 {:catch error}
     <p>{error.message}</p>
-{/await}
+{/await} -->
