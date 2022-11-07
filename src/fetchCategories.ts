@@ -23,8 +23,6 @@ function parseToCategory(category: any): Category {
     return newCategory;
 }
 
-function parseToSong(song: any): Song {
-    return new Song(song.songTitle, song.gameTitle, song.songPath, song.imagePath, song.pointValue);
-};
+const parseToSong = (song: any): Song => new Song(song.songTitle, song.gameTitle, song.songPath, song.imagePath, song.pointValue);
 
 export default fetchCategories;
