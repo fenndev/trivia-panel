@@ -1,54 +1,48 @@
 config:
   title: VGMT
   subtitle: Video Game Music Trivia
-  intro: >
+  intro: |
     Welcome to VGMT! This is a fun trivia panel about video game music.
-  copyright: >
+  copyright: |
     © 2022 fenndev. Some rights reserved.
   isDarkTheme: true
 
 categories:
   - name: Classics
     pointTotal: 10
-    song1:
-      songTitle: "Zelda's Lullaby"
+    songs:
+    - songTitle: "Zelda's Lullaby"
       gameTitle: "The Legend of Zelda: Ocarina of Time"
       songPath: resources\cat1\song1.mp3
       imagePath: resources\cat1\song1.jpg
-    song2:
-      songTitle: "Miror B. Theme"
+    - songTitle: "Miror B. Theme"
       gameTitle: "Pokemon XD: Gale of Darkness"
       songPath: resources\cat1\song2.mp3
       imagePath: resources\cat1\song2.jpg
-    song3:
-      songTitle: "Pursuit: Cornered"
+    - songTitle: "Pursuit: Cornered"
       gameTitle: "Ace Attorney: Dual Destinies"
       songPath: resources\cat1\song3.mp3
       imagePath: resources\cat1\song3.jpg
-    song4:
-      songTitle: "Discussion -HEAT UP-"
+    - songTitle: "Discussion -HEAT UP-"
       gameTitle: "Danganronpa"
       songPath: resources\cat1\song4.mp3
       imagePath: resources\cat1\song4.jpg
-  - name: "Anything Goes"
+  - name: Anything Goes
     pointTotal: 12
-    song1:
-      songTitle: "The Final Battle"
+    songs:
+    - songTitle: "The Final Battle"
       gameTitle: "Final Fantasy VII"
       songPath: resources\cat2\song1.mp3
       imagePath: resources\cat2\song1.jpg
-    song2:
-      songTitle: "It's Raining Somwhere Else"
+    - songTitle: "It's Raining Somwhere Else"
       gameTitle: Undertale
       songPath: resources\cat2\song2.mp3
       imagePath: resources\cat2\song2.jpg
-    song3:
-      songTitle: "16 Melodies"
+    - songTitle: "16 Melodies"
       gameTitle: "Mother 3"
       songPath: resources\cat2\song3.mp3
       imagePath: resources\cat2\song3.jpg
-    song4:
-      songTitle: Make This Right
+    - songTitle: Make This Right
       gameTitle: Furi
       songPath: resources\cat2\song4.mp3
       imagePath: resources\cat2\song4.jpg
