@@ -1,8 +1,0 @@
-config:
-  title: VGMT
-  subtitle: Video Game Music Trivia
-  intro: |
-    Welcome to VGMT! This is a fun trivia panel about video game music.
-  copyright: |
-    © 2022 fenndev. Some rights reserved.
-  isDarkTheme: true
