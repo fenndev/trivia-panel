@@ -1,5 +1,5 @@
-import Song from '../src/classes/Song'
-import Category from '../src/classes/Category'
+import Song from './Song'
+import Category from './Category'
 const fs = require('fs-extra')
 
 export default class CategoryManager {
@@ -39,6 +39,33 @@ export default class CategoryManager {
     try {
       const data = await this.readData()
       this.parseData(data)
+    } catch (error) {
+      throw new Error(error)
+    }
+  }
+
+  public async testValues(): Promise<{ name: string; missingFiles: string[] }> {
+    try {
+      const data = await this.readData()
+      const parsedData = JSON.parse(data)
+
+      const result = parsedData.categories.map((category) => {
+        const missingFiles: string[] | undefined = category.songs
+          .filter((song) => !fs.pathExistsSync(song.audio) || !fs.pathExistsSync(song.image))
+          .map((song) => {
+            const missing: string[] = []
+            if (!fs.pathExistsSync(song.audio)) missing.push(song.audio)
+            if (!fs.pathExistsSync(song.image)) missing.push(song.image)
+            return missing
+          })
+          .flat()
+
+        return {
+          name: category.name,
+          missingFiles
+        }
+      })
+      return result
     } catch (error) {
       throw new Error(error)
     }
