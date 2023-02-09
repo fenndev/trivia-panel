@@ -10,11 +10,16 @@ export default class CategoryManager {
     this.categories = []
   }
 
+  public createCategory(name: string, songs: Song[]): void {
+    const newCategory = new Category(name, songs)
+    this.categories.push(newCategory)
+  }
+
   private async readData(): Promise<string> {
     try {
       return await fs.readFile(this.filePath, 'utf8')
     } catch (error) {
-      throw new Error(error)
+      throw new Error()
     }
   }
 
@@ -40,7 +45,7 @@ export default class CategoryManager {
       const data = await this.readData()
       this.parseData(data)
     } catch (error) {
-      throw new Error(error)
+      throw new Error()
     }
   }
 
@@ -66,8 +71,8 @@ export default class CategoryManager {
         }
       })
       return result
-    } catch (error) {
-      throw new Error(error)
+    } catch (err) {
+      throw new Error()
     }
   }
 

@@ -1,7 +1,11 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import Category from '../classes/Category'
+import CategoryManager from '../classes/CategoryManager'
+
+let categoryManager: CategoryManager
 
 function createWindow(): void {
   // Create the browser window.
@@ -19,6 +23,7 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
+    categoryManager = new CategoryManager()
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -69,3 +74,9 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('new-category-data', (event, newCategoryData) => {
+  const { name, songs } = newCategoryData
+  categoryManager.createCategory(name, songs)
+  ipcMain.emit('new-category-created', categoryManager.categoryList)
+})

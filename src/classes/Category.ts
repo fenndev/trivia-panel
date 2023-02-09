@@ -1,7 +1,7 @@
 import type Song from './Song'
 
 export default class Category {
-  private totalPoints: number
+  private totalPoints!: number
   constructor(private categoryName: string, private songList: Song[]) {
     this.calculatePointTotal()
   }
@@ -22,6 +22,10 @@ export default class Category {
 
   public set songs(songs: Song[]) {
     this.songs = songs
+  }
+
+  public addSong(song: Song): void {
+    this.songList.push(song)
   }
 
   public get songTotal(): number {
