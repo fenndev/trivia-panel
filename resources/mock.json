@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Anything Goes",
+        "pointTotal": 300,
+        "songs": [
+            {
+                "songName": "Life Will Change",
+                "songPath": "/path/to/song1",
+                "gameName": "Game 1",
+                "gameImagePath": "/path/to/game1/image",
+                "pointTotal": 100
+            },
+            {
+                "songName": "Lifelight",
+                "songPath": "/path/to/song2",
+                "gameName": "Game 2",
+                "gameImagePath": "/path/to/game2/image",
+                "pointTotal": 200
+            }
+        ]
+    },
+    {
+        "name": "Surprise Round",
+        "pointTotal": 150,
+        "songs": [
+            {
+                "songName": "Hinkledinkle",
+                "songPath": "/path/to/song3",
+                "gameName": "Game 3",
+                "gameImagePath": "/path/to/game3/image",
+                "pointTotal": 150
+            }
+        ]
+    }
+]
