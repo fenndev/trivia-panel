@@ -2,13 +2,13 @@ import Song from '../interfaces/Song';
 
 export default class Category {
     name: string;
-    songs: Song[];
     id: string;
+    songs: Song[];
 
-    constructor(name: string, songs: Song[], id: string) {
+    constructor(name: string, id: string, songs: Song[]) {
         this.name = name;
-        this.songs = songs;
         this.id = id;
+        this.songs = songs;
     }
 
     get pointTotal(): number {

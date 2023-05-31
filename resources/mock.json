@@ -1,9 +1,10 @@
 [
     {
         "name": "Anything Goes",
-        "pointTotal": 300,
+        "id": "anything-goes",
         "songs": [
             {
+                "id": "life-will-change",
                 "songName": "Life Will Change",
                 "songPath": "/path/to/song1",
                 "gameName": "Game 1",
@@ -11,6 +12,7 @@
                 "pointTotal": 100
             },
             {
+                "id": "lifelight",
                 "songName": "Lifelight",
                 "songPath": "/path/to/song2",
                 "gameName": "Game 2",
@@ -21,9 +23,10 @@
     },
     {
         "name": "Surprise Round",
-        "pointTotal": 150,
+        "id": "surprise-round",
         "songs": [
             {
+                "id": "hinkledinkle",
                 "songName": "Hinkledinkle",
                 "songPath": "/path/to/song3",
                 "gameName": "Game 3",
