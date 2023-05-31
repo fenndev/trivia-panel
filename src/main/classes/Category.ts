@@ -1,4 +1,4 @@
-import Song from './Song';
+import Song from '../interfaces/Song';
 
 export default class Category {
     name: string;

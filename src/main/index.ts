@@ -58,6 +58,7 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
     const manager = new Manager();
+    console.log(manager);
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
