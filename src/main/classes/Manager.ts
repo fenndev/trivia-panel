@@ -1,6 +1,6 @@
-import Song from '../interfaces/Song';
-import Category from './Category';
-import CategoryData from '../interfaces/CategoryData';
+import Song from '../../shared/interfaces/Song';
+import Category from '../../shared/classes/Category';
+import CategoryData from '../../shared/interfaces/CategoryData';
 import handleError from '../functions/handleError';
 import fs from 'fs-extra';
 
