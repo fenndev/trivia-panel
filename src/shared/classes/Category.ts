@@ -1,6 +1,7 @@
+import CategoryData from '../interfaces/CategoryData';
 import Song from '../interfaces/Song';
 
-export default class Category {
+export default class Category implements CategoryData {
     name: string;
     id: string;
     songs: Song[];

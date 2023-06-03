@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import Category from '../classes/Category';
+import Category from '../../shared/classes/Category';
 
 export default async function validate(filepath: string): Promise<boolean> {
     try {

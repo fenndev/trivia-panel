@@ -12,7 +12,6 @@
                 "pointTotal": 100
             },
             {
-                "id": "lifelight",
                 "songName": "Lifelight",
                 "songPath": "/path/to/song2",
                 "gameName": "Game 2",

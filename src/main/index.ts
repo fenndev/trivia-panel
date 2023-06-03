@@ -59,10 +59,9 @@ app.whenReady().then(async () => {
     });
     const manager = new Manager();
     await manager.initialize();
-    await manager.createIDs();
-    const song = manager.findSong('life-will-change');
-    console.log(song); // Outputs the song object or undefined if not found
+
     console.log(manager.findCategory('anything-goes'));
+    console.log(manager.findSong('life-will-change'));
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
