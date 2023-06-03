@@ -21,7 +21,7 @@ export default class Manager {
         return this._categories;
     }
 
-    public async initialize(): Promise<void> {
+    public async init(): Promise<void> {
         try {
             this._categories = await this.loadCategories();
             this._lookupTable.create(this._categories);

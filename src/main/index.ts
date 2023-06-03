@@ -58,7 +58,7 @@ app.whenReady().then(async () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
     const manager = new Manager();
-    await manager.initialize();
+    await manager.init();
 
     console.log(manager.findCategory('anything-goes'));
     console.log(manager.findSong('life-will-change'));
