@@ -4,5 +4,5 @@ export default interface Song {
     songPath: string;
     gameName: string;
     gameImagePath: string;
-    pointTotal: number;
+    pointValue: number;
 }

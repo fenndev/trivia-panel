@@ -1,8 +1,11 @@
 import { app, shell, BrowserWindow } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources/icon.png?asset';
+import { inspect } from 'util';
+import icon from '../../resources//test/icon.png?asset';
 import Manager from './classes/Manager';
+import FileData from '../shared/interfaces/FileData';
+import SongData from '../shared/interfaces/SongData';
 
 function createWindow(): void {
     // Create the browser window.
@@ -60,8 +63,24 @@ app.whenReady().then(async () => {
     const manager = new Manager();
     await manager.init();
 
-    console.log(manager.findCategory('anything-goes'));
-    console.log(manager.findSong('life-will-change'));
+    const iconFile = Buffer.from(icon);
+    const name = 'Icon';
+    const file: FileData = {
+        name,
+        data: iconFile,
+    };
+
+    const songData: SongData = {
+        categoryID: 'anything-goes',
+        songName: 'test song',
+        songFile: file,
+        gameName: 'test game',
+        gameImageFile: file,
+        pointValue: 16,
+    };
+
+    manager.handleSong(songData);
+    console.log(inspect(manager.categories, { showHidden: false, depth: null }));
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common

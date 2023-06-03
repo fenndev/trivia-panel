@@ -9,14 +9,23 @@
                 "songPath": "/path/to/song1",
                 "gameName": "Game 1",
                 "gameImagePath": "/path/to/game1/image",
-                "pointTotal": 100
+                "pointValue": 100
             },
             {
+                "id": "lifelight",
                 "songName": "Lifelight",
                 "songPath": "/path/to/song2",
                 "gameName": "Game 2",
                 "gameImagePath": "/path/to/game2/image",
-                "pointTotal": 200
+                "pointValue": 200
+            },
+            {
+                "id": "test-song",
+                "songName": "test song",
+                "songPath": "resources/Icon",
+                "gameName": "test game",
+                "gameImagePath": "resources/Icon",
+                "pointValue": 16
             }
         ]
     },
@@ -30,7 +39,7 @@
                 "songPath": "/path/to/song3",
                 "gameName": "Game 3",
                 "gameImagePath": "/path/to/game3/image",
-                "pointTotal": 150
+                "pointValue": 150
             }
         ]
     }

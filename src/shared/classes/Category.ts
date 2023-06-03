@@ -17,6 +17,6 @@ export default class Category implements CategoryData {
     }
 
     private calculatePointsTotal(): number {
-        return this.songs.reduce((total, song) => total + song.pointTotal, 0);
+        return this.songs.reduce((total, song) => total + song.pointValue, 0);
     }
 }
