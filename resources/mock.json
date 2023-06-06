@@ -34,6 +34,14 @@
                 "gameName": "dfasafsd",
                 "gameImagePath": "resources/Untitled.jpeg",
                 "pointValue": 7
+            },
+            {
+                "id": "kiss-my-ass",
+                "songName": "Kiss my Ass",
+                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "Svelte Component Test",
+                "gameImagePath": "resources/Untitled.jpeg",
+                "pointValue": 42069
             }
         ]
     },
