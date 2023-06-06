@@ -8,7 +8,7 @@ import handleError from '../functions/handleError';
 import createID from '../functions/createID';
 import isObjectEqual from '../functions/isObjectEqual';
 
-export default class Manager {
+class Manager {
     private _categories: Category[];
     private _fileManager: FileManager;
     private _lookupTable: LookupTable;
@@ -61,7 +61,7 @@ export default class Manager {
 
     public handleSong(songData: SongData): void {
         const songPath = this._fileManager.handle(songData.songFile);
-        const gameImagePath = this._fileManager.handle(songData.gameImageFile);
+        const gameImagePath = this._fileManager.handle(songData.imageFile);
         const { songName, gameName, pointValue, categoryID } = songData;
         const id = createID(songData.songName);
         const song: Song = {
@@ -81,3 +81,7 @@ export default class Manager {
 
     public findSong = (songID: string): Song | undefined => this._lookupTable.getSong(songID);
 }
+
+const manager = new Manager();
+
+export default manager;

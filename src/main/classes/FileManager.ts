@@ -1,8 +1,8 @@
 import JSONManager from './JSONManager';
 import CategoryData from '../../shared/interfaces/CategoryData';
-import FileData from '../../shared/interfaces/FileData';
 import fs from 'fs-extra';
-import { basename, extname, join } from 'path';
+import { join } from 'path';
+import FileData from '../../shared/interfaces/FileData';
 export default class FileManager {
     private _resourcePath: string;
     private _jsonPath: string;
@@ -19,10 +19,8 @@ export default class FileManager {
     }
 
     public handle(fileData: FileData): string {
-        const fileExtension = extname(fileData.name);
-        const fileName = basename(fileData.name, fileExtension);
-        const filePath = join(this._resourcePath, `${fileName}${fileExtension}`);
-        fs.writeFileSync(filePath, fileData.data);
+        const filePath = join(this._resourcePath, fileData.filename);
+        fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
         return filePath;
     }
 

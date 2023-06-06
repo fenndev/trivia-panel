@@ -1,8 +1,14 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
+import SongData from '../shared/interfaces/SongData';
 
 // Custom APIs for renderer
-const api = {};
+const api = {
+    sendFile: (file: SongData): void => {
+        console.log('Running!');
+        ipcRenderer.send('new-file', file);
+    },
+};
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

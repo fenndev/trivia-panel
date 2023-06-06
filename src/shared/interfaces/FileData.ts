@@ -1,4 +1,5 @@
 export default interface FileData {
-    name: string;
-    data: Buffer;
+    filename: string;
+    extension: string;
+    buffer: ArrayBuffer;
 }

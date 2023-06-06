@@ -1,10 +1,8 @@
-import { app, shell, BrowserWindow } from 'electron';
+import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import { inspect } from 'util';
 import icon from '../../resources//test/icon.png?asset';
-import Manager from './classes/Manager';
-import FileData from '../shared/interfaces/FileData';
+import manager from './classes/Manager';
 import SongData from '../shared/interfaces/SongData';
 
 function createWindow(): void {
@@ -60,27 +58,7 @@ app.whenReady().then(async () => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
-    const manager = new Manager();
-    await manager.init();
-
-    const iconFile = Buffer.from(icon);
-    const name = 'Icon';
-    const file: FileData = {
-        name,
-        data: iconFile,
-    };
-
-    const songData: SongData = {
-        categoryID: 'anything-goes',
-        songName: 'test song',
-        songFile: file,
-        gameName: 'test game',
-        gameImageFile: file,
-        pointValue: 16,
-    };
-
-    manager.handleSong(songData);
-    console.log(inspect(manager.categories, { showHidden: false, depth: null }));
+    manager.init();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -94,6 +72,11 @@ app.on('window-all-closed', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('new-file', (event: Event, songData: SongData) => {
+    console.log('IPC Main running!');
+    manager.handleSong(songData);
+});
 
 // Disable GPU-related errors on dev machine
 app.commandLine.appendSwitch('disable-gpu');

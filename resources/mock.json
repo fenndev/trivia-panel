@@ -26,6 +26,14 @@
                 "gameName": "test game",
                 "gameImagePath": "resources/Icon",
                 "pointValue": 16
+            },
+            {
+                "id": "hghg",
+                "songName": "hghg",
+                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "dfasafsd",
+                "gameImagePath": "resources/Untitled.jpeg",
+                "pointValue": 7
             }
         ]
     },
