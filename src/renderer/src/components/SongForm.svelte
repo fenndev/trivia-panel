@@ -1,31 +1,21 @@
 <script lang="ts">
     import type SongData from '../../../shared/interfaces/SongData';
-    import type FileData from '../../../shared/interfaces/FileData';
+    import getFileData from '../functions/getFileData';
+    import getFormInputValue from '../functions/getFormInputValue';
+    import getFormFileInput from '../functions/getFormFileInput';
     async function submitSong(event: Event) {
         const form = event.currentTarget as HTMLFormElement;
-        const gameName = (form.elements.namedItem('game-name') as HTMLInputElement).value;
-        const songName = (form.elements.namedItem('song-name') as HTMLInputElement).value;
-        const pointValue = parseInt((form.elements.namedItem('point-value') as HTMLInputElement).value);
-        const imageFile = (form.elements.namedItem('image-file') as HTMLInputElement).files[0];
-        const songFile = (form.elements.namedItem('song-file') as HTMLInputElement).files[0];
+        const gameName = getFormInputValue(form, 'game-name');
+        const songName = getFormInputValue(form, 'song-name');
+        const pointValue = parseInt(getFormInputValue(form, 'point-value'));
+        const imageFile = getFormFileInput(form, 'image-file');
+        const songFile = getFormFileInput(form, 'song-file');
         const categoryID = 'anything-goes';
-        const imageFileData: FileData = {
-            filename: imageFile.name,
-            extension: imageFile.name.slice(imageFile.name.lastIndexOf('.') + 1),
-            buffer: await imageFile.arrayBuffer(),
-        };
-
-        const songFileData: FileData = {
-            filename: songFile.name,
-            extension: songFile.name.slice(songFile.name.lastIndexOf('.') + 1),
-            buffer: await songFile.arrayBuffer(),
-        };
-
         const songData: SongData = {
             songName,
             gameName,
-            songFile: songFileData,
-            imageFile: imageFileData,
+            songFile: await getFileData(songFile),
+            imageFile: await getFileData(imageFile),
             pointValue,
             categoryID,
         };

@@ -58,7 +58,6 @@ app.whenReady().then(async () => {
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
-    manager.init();
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
@@ -75,7 +74,7 @@ app.on('window-all-closed', () => {
 
 ipcMain.on('new-file', (event: Event, songData: SongData) => {
     console.log('IPC Main running!');
-    manager.handleSong(songData);
+    manager.onNewSong(songData);
 });
 
 // Disable GPU-related errors on dev machine

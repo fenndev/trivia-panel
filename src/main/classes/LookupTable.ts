@@ -1,7 +1,6 @@
 import Category from '../../shared/classes/Category';
 import Song from '../../shared/interfaces/Song';
-import Table from '../interfaces/Table';
-
+import Table from '../../shared/interfaces/Table';
 export default class LookupTable {
     private _categoryTable: Table<Category>;
     private _songTable: Table<Song>;

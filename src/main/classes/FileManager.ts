@@ -1,30 +1,51 @@
 import JSONManager from './JSONManager';
 import CategoryData from '../../shared/interfaces/CategoryData';
-import fs from 'fs-extra';
+import fs, { ensureDirSync } from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
 export default class FileManager {
-    private _resourcePath: string;
-    private _jsonPath: string;
+    private _resourcePath = 'resources';
+    private _jsonPath = `${this._resourcePath}/mock.json`;
+    private _categoriesPath = `${this._resourcePath}/categories`;
     private _jsonManager: JSONManager;
+
     constructor() {
-        this._resourcePath = 'resources';
-        this._jsonPath = `${this._resourcePath}/mock.json`;
-        if (!fs.existsSync(this._jsonPath)) fs.createFileSync(this._jsonPath);
+        this.ensureResourceStructure();
         this._jsonManager = new JSONManager(this._jsonPath);
+    }
+
+    private ensureResourceStructure(): void {
+        fs.ensureDirSync(this._resourcePath);
+        fs.ensureFileSync(this._jsonPath);
+        fs.ensureDirSync(this._categoriesPath);
     }
 
     public getCategories(): CategoryData[] {
         return this._jsonManager.read();
     }
 
-    public handle(fileData: FileData): string {
-        const filePath = join(this._resourcePath, fileData.filename);
+    private handle(fileData: FileData, categoryID: string): string {
+        const categoryPath = join(this._categoriesPath, categoryID);
+        ensureDirSync(categoryPath);
+        const filePath = join(categoryPath, fileData.filename);
         fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
         return filePath;
     }
 
-    public sync(categories: CategoryData[]): void {
+    public handleFiles(fileData: FileData[], categoryID: string): string[] {
+        const filePaths: string[] = [];
+        fileData.forEach((file) => {
+            filePaths.push(this.handle(file, categoryID));
+        });
+        return filePaths;
+    }
+
+    public sync(categories: CategoryData[]): CategoryData[] {
         this._jsonManager.write(categories);
+        return this.getCategories();
+    }
+
+    public validateFile(filePath: string): boolean {
+        return fs.pathExistsSync(filePath);
     }
 }

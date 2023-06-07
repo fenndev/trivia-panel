@@ -42,6 +42,54 @@
                 "gameName": "Svelte Component Test",
                 "gameImagePath": "resources/Untitled.jpeg",
                 "pointValue": 42069
+            },
+            {
+                "id": "dsfadsffds",
+                "songName": "dsfadsffds",
+                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "fdsafdsd",
+                "gameImagePath": "resources/Untitled.jpeg",
+                "pointValue": 12
+            },
+            {
+                "id": "dfsfasdasdfdasffasd",
+                "songName": "dfsfasdasdfdasffasd",
+                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.flac",
+                "gameName": "dfafdsfd",
+                "gameImagePath": "resources/Untitled.jpeg",
+                "pointValue": 15
+            },
+            {
+                "id": "dsafdsfds",
+                "songName": "dsafdsfds",
+                "songPath": "resources/categories/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "dasffds",
+                "gameImagePath": "resources/categories/Screenshot from 2023-06-05 21-17-17.png",
+                "pointValue": 1
+            },
+            {
+                "id": "hooplah",
+                "songName": "Hooplah!!",
+                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "Another test!",
+                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
+                "pointValue": 420
+            },
+            {
+                "id": "hooplah",
+                "songName": "Hooplah!!",
+                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "Another test!",
+                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
+                "pointValue": 420
+            },
+            {
+                "id": "hooplahdf",
+                "songName": "Hooplah!df!",
+                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "Another test!",
+                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
+                "pointValue": 420
             }
         ]
     },

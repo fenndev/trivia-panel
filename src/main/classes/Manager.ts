@@ -1,87 +1,58 @@
 import Song from '../../shared/interfaces/Song';
 import Category from '../../shared/classes/Category';
-import SongData from '../../shared/interfaces/SongData';
-import CategoryData from '../../shared/interfaces/CategoryData';
+import CategoryManager from './CategoryManager';
+import SongManager from './SongManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
-import handleError from '../functions/handleError';
+import SongData from '../../shared/interfaces/SongData';
 import createID from '../functions/createID';
-import isObjectEqual from '../functions/isObjectEqual';
 
 class Manager {
-    private _categories: Category[];
+    private static _instance: Manager;
+    private _categoryManager: CategoryManager;
     private _fileManager: FileManager;
+    private _songManager: SongManager;
     private _lookupTable: LookupTable;
-    constructor() {
-        this._categories = [];
-        this._fileManager = new FileManager();
-        this._lookupTable = new LookupTable();
+    constructor(fileManager: FileManager, songManager: SongManager, lookupTable: LookupTable) {
+        this._fileManager = fileManager;
+        this._songManager = songManager;
+        this._lookupTable = lookupTable;
+        this._categoryManager = new CategoryManager(this._fileManager.getCategories());
+        this._lookupTable.create(this._categoryManager.categories);
     }
 
-    // Getters and Setters
-    get categories(): Category[] {
-        return this._categories;
+    // Singleton
+    public static getInstance(fileManager: FileManager, songManager: SongManager, lookupTable: LookupTable): Manager {
+        if (!this._instance) {
+            this._instance = new Manager(fileManager, songManager, lookupTable);
+        }
+        return this._instance;
     }
 
-    public init(): void {
-        this._categories = this.loadCategories();
-        this._lookupTable.create(this._categories);
-    }
-
-    private loadCategories(): Category[] {
-        const categories = this._fileManager.getCategories();
-        return categories.map((item: CategoryData) => this.parseToCategory(item));
-    }
-
-    private parseToCategory(data: CategoryData): Category {
-        const id = data.id ?? createID(data.name);
-        data.songs.forEach((song) => {
-            if (song.id) return;
-            song.id = createID(song.songName);
-        });
-        const category = new Category(data.name, id, data.songs);
-        return category;
-    }
-
-    public createCategory(categoryName: string): void {
-        this._categories.push(new Category(categoryName, createID(categoryName), []));
-    }
-
-    public addSong(song: Song, categoryID: string): void {
-        const category: Category | undefined = this._lookupTable.getCategory(categoryID);
-        if (!category) handleError(new Error('Category does not exist!'));
-        if (
-            category?.songs.some((existingSong) => {
-                return isObjectEqual(existingSong, song);
-            })
-        )
-            handleError(new Error('Song already exists!'));
-        else category?.songs.push(song);
-    }
-
-    public handleSong(songData: SongData): void {
-        const songPath = this._fileManager.handle(songData.songFile);
-        const gameImagePath = this._fileManager.handle(songData.imageFile);
+    public onNewSong(songData: SongData): void {
+        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([songData.imageFile, songData.songFile], songData.categoryID);
         const { songName, gameName, pointValue, categoryID } = songData;
-        const id = createID(songData.songName);
-        const song: Song = {
-            id,
-            songName,
-            songPath,
-            gameName,
-            gameImagePath,
-            pointValue,
-        };
-        this.addSong(song, categoryID);
-        this._fileManager.sync(this._categories);
-        this._categories = this.loadCategories();
+        const song = this._songManager.createSong(createID(songName), songName, songFilePath, gameName, imageFilePath, pointValue);
+        const category: Category | undefined = this._lookupTable.getCategory(categoryID);
+        if (!category) throw new Error('Category does not exist!');
+        else {
+            this._songManager.addSong(song, category);
+            this._categoryManager.updateCategory(category);
+            this.synchronize();
+        }
+    }
+
+    public synchronize(): void {
+        this._categoryManager.categories = this._fileManager.sync(this._categoryManager.categories);
     }
 
     public findCategory = (categoryID: string): Category | undefined => this._lookupTable.getCategory(categoryID);
 
     public findSong = (songID: string): Song | undefined => this._lookupTable.getSong(songID);
 }
-
-const manager = new Manager();
+const fileManager = new FileManager();
+const songManager = new SongManager();
+const lookupTable = new LookupTable();
+const manager = Manager.getInstance(fileManager, songManager, lookupTable);
 
 export default manager;
