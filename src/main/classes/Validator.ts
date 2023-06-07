@@ -1,4 +1,4 @@
-import Song from '../../shared/interfaces/Song';
+import Song from '../../shared/interfaces/SongData';
 import CategoryData from '../../shared/interfaces/CategoryData';
 import FileManager from './FileManager';
 export default class Validator {

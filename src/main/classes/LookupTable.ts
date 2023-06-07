@@ -1,9 +1,9 @@
 import Category from '../../shared/classes/Category';
-import Song from '../../shared/interfaces/Song';
+import SongData from '../../shared/interfaces/SongData';
 import Table from '../../shared/interfaces/Table';
 export default class LookupTable {
     private _categoryTable: Table<Category>;
-    private _songTable: Table<Song>;
+    private _songTable: Table<SongData>;
     constructor() {
         this._categoryTable = {};
         this._songTable = {};
@@ -22,7 +22,7 @@ export default class LookupTable {
         return this._categoryTable[key];
     }
 
-    getSong(key: string): Song | undefined {
+    getSong(key: string): SongData | undefined {
         return this._songTable[key];
     }
 

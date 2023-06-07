@@ -1,6 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import SongData from '../shared/interfaces/SongData';
+import SongData from '../shared/interfaces/Song';
 
 // Custom APIs for renderer
 const api = {

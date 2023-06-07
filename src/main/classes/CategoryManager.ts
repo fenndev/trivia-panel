@@ -1,6 +1,5 @@
 import Category from '../../shared/classes/Category';
 import CategoryData from '../../shared/interfaces/CategoryData';
-import createID from '../functions/createID';
 
 export default class CategoryManager {
     private _categories: Category[];

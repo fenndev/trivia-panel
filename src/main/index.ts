@@ -1,9 +1,9 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
-import icon from '../../resources//test/icon.png?asset';
+import icon from '../../resources//icon.png?asset';
 import manager from './classes/Manager';
-import SongData from '../shared/interfaces/SongData';
+import SongData from '../shared/interfaces/Song';
 
 function createWindow(): void {
     // Create the browser window.

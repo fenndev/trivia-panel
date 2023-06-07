@@ -1,12 +1,12 @@
 import CategoryData from '../interfaces/CategoryData';
-import Song from '../interfaces/Song';
+import SongData from '../interfaces/SongData';
 
 export default class Category implements CategoryData {
     name: string;
     id: string;
-    songs: Song[];
+    songs: SongData[];
 
-    constructor(name: string, id: string, songs: Song[]) {
+    constructor(name: string, id: string, songs: SongData[]) {
         this.name = name;
         this.id = id;
         this.songs = songs;

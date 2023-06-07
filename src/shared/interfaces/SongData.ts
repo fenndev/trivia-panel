@@ -1,10 +1,8 @@
-import FileData from './FileData';
-
 export default interface SongData {
+    id: string;
     songName: string;
+    songPath: string;
     gameName: string;
-    songFile: FileData;
-    imageFile: FileData;
+    gameImagePath: string;
     pointValue: number;
-    categoryID: string;
 }

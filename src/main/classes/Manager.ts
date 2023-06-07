@@ -1,10 +1,11 @@
 import Song from '../../shared/interfaces/Song';
 import Category from '../../shared/classes/Category';
+import SongData from '../../shared/interfaces/SongData';
 import CategoryManager from './CategoryManager';
 import SongManager from './SongManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
-import SongData from '../../shared/interfaces/SongData';
+
 import createID from '../functions/createID';
 
 class Manager {
@@ -29,14 +30,14 @@ class Manager {
         return this._instance;
     }
 
-    public onNewSong(songData: SongData): void {
-        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([songData.imageFile, songData.songFile], songData.categoryID);
-        const { songName, gameName, pointValue, categoryID } = songData;
-        const song = this._songManager.createSong(createID(songName), songName, songFilePath, gameName, imageFilePath, pointValue);
+    public onNewSong(song: Song): void {
+        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
+        const { songName, gameName, pointValue, categoryID } = song;
+        const songData = this._songManager.createSong(createID(songName), songName, songFilePath, gameName, imageFilePath, pointValue);
         const category: Category | undefined = this._lookupTable.getCategory(categoryID);
         if (!category) throw new Error('Category does not exist!');
         else {
-            this._songManager.addSong(song, category);
+            this._songManager.addSong(songData, category);
             this._categoryManager.updateCategory(category);
             this.synchronize();
         }
@@ -48,7 +49,7 @@ class Manager {
 
     public findCategory = (categoryID: string): Category | undefined => this._lookupTable.getCategory(categoryID);
 
-    public findSong = (songID: string): Song | undefined => this._lookupTable.getSong(songID);
+    public findSong = (songID: string): SongData | undefined => this._lookupTable.getSong(songID);
 }
 const fileManager = new FileManager();
 const songManager = new SongManager();

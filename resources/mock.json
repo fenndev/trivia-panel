@@ -90,6 +90,14 @@
                 "gameName": "Another test!",
                 "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
                 "pointValue": 420
+            },
+            {
+                "id": "dfafdfd",
+                "songName": "dfafdfd",
+                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "Test",
+                "gameImagePath": "resources/categories/anything-goes/Screenshot from 2023-06-05 21-17-17.png",
+                "pointValue": 15
             }
         ]
     },
