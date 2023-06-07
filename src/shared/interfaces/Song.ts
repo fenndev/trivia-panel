@@ -7,4 +7,5 @@ export default interface Song {
     imageFile: FileData;
     pointValue: number;
     categoryID: string;
+    categoryName?: string;
 }

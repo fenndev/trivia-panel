@@ -6,7 +6,8 @@ import SongManager from './SongManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
 
-import createID from '../functions/createID';
+import createID from '../../shared/functions/createID';
+import CategoryData from '../../shared/interfaces/CategoryData';
 
 class Manager {
     private static _instance: Manager;
@@ -32,19 +33,33 @@ class Manager {
 
     public onNewSong(song: Song): void {
         const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
-        const { songName, gameName, pointValue, categoryID } = song;
+        const { songName, gameName, pointValue, categoryID, categoryName } = song;
         const songData = this._songManager.createSong(createID(songName), songName, songFilePath, gameName, imageFilePath, pointValue);
-        const category: Category | undefined = this._lookupTable.getCategory(categoryID);
-        if (!category) throw new Error('Category does not exist!');
-        else {
-            this._songManager.addSong(songData, category);
-            this._categoryManager.updateCategory(category);
-            this.synchronize();
+        let category: Category | undefined = this._lookupTable.getCategory(categoryID);
+        if (!category) {
+            let tempCat: CategoryData;
+            if (categoryName && categoryID) {
+                tempCat = {
+                    name: categoryName,
+                    id: categoryID,
+                    songs: [],
+                };
+
+                category = this._categoryManager.createCategory(tempCat);
+            }
         }
+        this._songManager.addSong(songData, category!);
+        this._categoryManager.updateCategory(category!);
+        this.synchronize();
     }
 
     public synchronize(): void {
-        this._categoryManager.categories = this._fileManager.sync(this._categoryManager.categories);
+        this._lookupTable.create(this._categoryManager.categories);
+        this._fileManager.sync(this._categoryManager.categories);
+    }
+
+    public onCategoriesRequest(): Category[] {
+        return this._categoryManager.categories;
     }
 
     public findCategory = (categoryID: string): Category | undefined => this._lookupTable.getCategory(categoryID);

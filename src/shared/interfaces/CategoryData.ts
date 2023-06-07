@@ -1,6 +1,8 @@
-import Song from './SongData';
-export default interface CategoryData {
+import type SongData from './SongData';
+interface CategoryData {
     name: string;
     id: string;
-    songs: Song[];
+    songs: SongData[];
 }
+
+export default CategoryData;

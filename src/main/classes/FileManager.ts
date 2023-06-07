@@ -21,7 +21,11 @@ export default class FileManager {
     }
 
     public getCategories(): CategoryData[] {
-        return this._jsonManager.read();
+        try {
+            return this._jsonManager.read();
+        } catch (error: unknown) {
+            return [];
+        }
     }
 
     private handle(fileData: FileData, categoryID: string): string {
@@ -41,6 +45,7 @@ export default class FileManager {
     }
 
     public sync(categories: CategoryData[]): CategoryData[] {
+        console.log(`Sync Categories: ${categories}`);
         this._jsonManager.write(categories);
         return this.getCategories();
     }

@@ -1,5 +1,5 @@
-import CategoryData from '../interfaces/CategoryData';
-import SongData from '../interfaces/SongData';
+import type SongData from '../interfaces/SongData';
+import type CategoryData from '../interfaces/CategoryData';
 
 export default class Category implements CategoryData {
     name: string;

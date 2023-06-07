@@ -1,117 +1,15 @@
 [
     {
-        "name": "Anything Goes",
-        "id": "anything-goes",
+        "name": "dafdf",
+        "id": "dafdf",
         "songs": [
             {
-                "id": "life-will-change",
-                "songName": "Life Will Change",
-                "songPath": "/path/to/song1",
-                "gameName": "Game 1",
-                "gameImagePath": "/path/to/game1/image",
-                "pointValue": 100
-            },
-            {
-                "id": "lifelight",
-                "songName": "Lifelight",
-                "songPath": "/path/to/song2",
-                "gameName": "Game 2",
-                "gameImagePath": "/path/to/game2/image",
-                "pointValue": 200
-            },
-            {
-                "id": "test-song",
-                "songName": "test song",
-                "songPath": "resources/Icon",
-                "gameName": "test game",
-                "gameImagePath": "resources/Icon",
-                "pointValue": 16
-            },
-            {
-                "id": "hghg",
-                "songName": "hghg",
-                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "dfasafsd",
-                "gameImagePath": "resources/Untitled.jpeg",
-                "pointValue": 7
-            },
-            {
-                "id": "kiss-my-ass",
-                "songName": "Kiss my Ass",
-                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "Svelte Component Test",
-                "gameImagePath": "resources/Untitled.jpeg",
-                "pointValue": 42069
-            },
-            {
-                "id": "dsfadsffds",
-                "songName": "dsfadsffds",
-                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "fdsafdsd",
-                "gameImagePath": "resources/Untitled.jpeg",
-                "pointValue": 12
-            },
-            {
-                "id": "dfsfasdasdfdasffasd",
-                "songName": "dfsfasdasdfdasffasd",
-                "songPath": "resources/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.flac",
-                "gameName": "dfafdsfd",
-                "gameImagePath": "resources/Untitled.jpeg",
-                "pointValue": 15
-            },
-            {
-                "id": "dsafdsfds",
-                "songName": "dsafdsfds",
-                "songPath": "resources/categories/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "dasffds",
-                "gameImagePath": "resources/categories/Screenshot from 2023-06-05 21-17-17.png",
-                "pointValue": 1
-            },
-            {
-                "id": "hooplah",
-                "songName": "Hooplah!!",
-                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "Another test!",
-                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
-                "pointValue": 420
-            },
-            {
-                "id": "hooplah",
-                "songName": "Hooplah!!",
-                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "Another test!",
-                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
-                "pointValue": 420
-            },
-            {
-                "id": "hooplahdf",
-                "songName": "Hooplah!df!",
-                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "Another test!",
-                "gameImagePath": "resources/categories/anything-goes/Untitled.jpeg",
-                "pointValue": 420
-            },
-            {
-                "id": "dfafdfd",
-                "songName": "dfafdfd",
-                "songPath": "resources/categories/anything-goes/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
-                "gameName": "Test",
-                "gameImagePath": "resources/categories/anything-goes/Screenshot from 2023-06-05 21-17-17.png",
-                "pointValue": 15
-            }
-        ]
-    },
-    {
-        "name": "Surprise Round",
-        "id": "surprise-round",
-        "songs": [
-            {
-                "id": "hinkledinkle",
-                "songName": "Hinkledinkle",
-                "songPath": "/path/to/song3",
-                "gameName": "Game 3",
-                "gameImagePath": "/path/to/game3/image",
-                "pointValue": 150
+                "id": "dfasdsf",
+                "songName": "dfasdsf",
+                "songPath": "resources/categories/dafdf/Ganondorf's BACK #ZeldaTearsOfTheKingdom #Shorts.mp3",
+                "gameName": "dfaadfs",
+                "gameImagePath": "resources/categories/dafdf/Untitled.jpeg",
+                "pointValue": 5
             }
         ]
     }

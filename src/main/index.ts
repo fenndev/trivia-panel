@@ -77,5 +77,10 @@ ipcMain.on('new-file', (event: Event, songData: SongData) => {
     manager.onNewSong(songData);
 });
 
+ipcMain.handle('fetch-categories', async (event: Event) => {
+    console.log('Categories requested!');
+    return manager.onCategoriesRequest();
+});
+
 // Disable GPU-related errors on dev machine
 app.commandLine.appendSwitch('disable-gpu');
