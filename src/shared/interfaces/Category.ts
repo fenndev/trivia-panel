@@ -1,9 +1,9 @@
-import type SongData from './SongData';
+import type { Song } from './Song';
 interface Category {
     name: string;
     id: string;
     pointTotal: number;
-    songs: SongData[];
+    songs: Song[];
 }
 
 export default Category;

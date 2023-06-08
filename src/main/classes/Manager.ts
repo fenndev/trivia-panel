@@ -1,9 +1,9 @@
-import Song from '../../shared/interfaces/Song';
-import SongData from '../../shared/interfaces/SongData';
+import { Song, RawSong, ParsedSong } from '../../shared/interfaces/Song';
 import CategoryManager from './CategoryManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
-import CategoryData from '../../shared/interfaces/Category';
+import Category from '../../shared/interfaces/Category';
+import isRawSong from '../functions/isRawSong';
 
 class Manager {
     private static _instance: Manager;
@@ -25,34 +25,32 @@ class Manager {
         return this._instance;
     }
 
-    public onNewSong(song: Song): void {
-        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
-        const songData: SongData = this._categoryManager.parseToSongData(song, imageFilePath, songFilePath);
-        let category: CategoryData;
-        const isExistingCategory: boolean = this._lookupTable.categoryExists(song.categoryID);
-        if (isExistingCategory) category = this._lookupTable.getCategory(song.categoryID) as CategoryData;
-        else category = this._categoryManager.createCategory(song.categoryName as string, [songData]);
-        this._categoryManager.addSong(songData, category);
+    public onNewSong(song: Song, categoryID: string): void {
+        if (!isRawSong(song)) return;
+        if (!this._lookupTable.categoryExists(categoryID)) return;
+        const category: Category = this._lookupTable.getCategory(categoryID) as Category;
+        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], categoryID);
+        const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
+        this._categoryManager.addSong(parsedSong, category);
         this._categoryManager.updateCategory(category);
-        if (this._categoryManager.categories.length !== 0) this._lookupTable.create(this._categoryManager.categories);
+        this._lookupTable.addSong(parsedSong);
         this._fileManager.sync(this._categoryManager.categories);
     }
 
-    public onNewCategory(category: CategoryData): void {
-        const isExistingCategory: boolean = this._lookupTable.categoryExists(category.id);
-        if (isExistingCategory) return;
+    public onNewCategory(category: Category): void {
+        if (this._lookupTable.categoryExists(category.id)) return;
         this._categoryManager.addCategory(category);
         this._lookupTable.addCategory(category);
         this._fileManager.sync(this._categoryManager.categories);
     }
 
-    public onCategoriesRequest(): CategoryData[] {
+    public onCategoriesRequest(): Category[] {
         return this._categoryManager.categories;
     }
 
-    public findCategory = (categoryID: string): CategoryData | undefined => this._lookupTable.getCategory(categoryID);
+    public findCategory = (categoryID: string): Category | undefined => this._lookupTable.getCategory(categoryID);
 
-    public findSong = (songID: string): SongData | undefined => this._lookupTable.getSong(songID);
+    public findSong = (songID: string): Song | undefined => this._lookupTable.getSong(songID);
 }
 const manager = Manager.getInstance();
 

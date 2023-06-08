@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Song from '../../../shared/interfaces/Song';
+    import type { RawSong } from '../../../shared/interfaces/Song';
     import getFileData from '../functions/getFileData';
     import getFormInputValue from '../functions/getFormInputValue';
     import getFormFileInput from '../functions/getFormFileInput';
@@ -20,15 +20,13 @@
         const pointValue = parseInt(getFormInputValue(form, 'point-value'));
         const imageFile = getFormFileInput(form, 'image-file');
         const songFile = getFormFileInput(form, 'song-file');
-        const songData: Song = {
+        const songData: RawSong = {
             id: createID(songName),
             songName,
             gameName,
             songFile: await getFileData(songFile),
             imageFile: await getFileData(imageFile),
             pointValue,
-            categoryID: createID(categorySelected),
-            categoryName: categorySelected,
         };
         //@ts-ignore
         window.api.sendFile(songData);

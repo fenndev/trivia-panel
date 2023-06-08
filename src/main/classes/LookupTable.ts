@@ -1,9 +1,9 @@
 import CategoryData from '../../shared/interfaces/Category';
-import SongData from '../../shared/interfaces/SongData';
+import type { Song } from '../../shared/interfaces/Song';
 import Table from '../../shared/interfaces/Table';
 export default class LookupTable {
     private _categoryTable: Table<CategoryData>;
-    private _songTable: Table<SongData>;
+    private _songTable: Table<Song>;
     constructor() {
         this._categoryTable = {};
         this._songTable = {};
@@ -22,11 +22,21 @@ export default class LookupTable {
         });
     }
 
+    public addSong(song: Song): void {
+        this._songTable[song.id] = song;
+    }
+
+    public addSongs(songs: Song[]): void {
+        songs.forEach((song) => {
+            this.addSong(song);
+        });
+    }
+
     getCategory(key: string): CategoryData | undefined {
         return this._categoryTable[key];
     }
 
-    getSong(key: string): SongData | undefined {
+    getSong(key: string): Song | undefined {
         return this._songTable[key];
     }
 
