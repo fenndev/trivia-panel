@@ -1,4 +1,3 @@
-import Category from '../../shared/classes/Category';
 import CategoryData from '../../shared/interfaces/CategoryData';
 import SongData from '../../shared/interfaces/SongData';
 import Table from '../../shared/interfaces/Table';
@@ -12,19 +11,15 @@ export default class LookupTable {
 
     public create(categories: CategoryData[]): void {
         categories.forEach((category) => {
-            this._categoryTable[category.id] = category;
-            category.songs.forEach((song) => {
-                this._songTable[song.id] = song;
-            });
+            this.addCategory(category);
         });
     }
 
-    public update(category: CategoryData): void {
-        const categories = Object.keys(this._categoryTable).map((key) => this.getCategory(key) as CategoryData);
-        categories.push(category);
-        this._categoryTable = {};
-        this._songTable = {};
-        this.create(categories);
+    public addCategory(category: CategoryData): void {
+        this._categoryTable[category.id] = category;
+        category.songs.forEach((song) => {
+            this._songTable[song.id] = song;
+        });
     }
 
     getCategory(key: string): CategoryData | undefined {
@@ -35,7 +30,11 @@ export default class LookupTable {
         return this._songTable[key];
     }
 
-    exists(key: string): boolean {
-        return Object.prototype.hasOwnProperty.call(this._categoryTable, key) || Object.prototype.hasOwnProperty.call(this._songTable, key);
+    songExists(key: string): boolean {
+        return Object.prototype.hasOwnProperty.call(this._songTable, key);
+    }
+
+    categoryExists(key: string): boolean {
+        return Object.prototype.hasOwnProperty.call(this._categoryTable, key);
     }
 }
