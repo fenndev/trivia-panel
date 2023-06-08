@@ -2,59 +2,48 @@ import Song from '../../shared/interfaces/Song';
 import Category from '../../shared/classes/Category';
 import SongData from '../../shared/interfaces/SongData';
 import CategoryManager from './CategoryManager';
-import SongManager from './SongManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
-
-import createID from '../../shared/functions/createID';
 import CategoryData from '../../shared/interfaces/CategoryData';
 
 class Manager {
     private static _instance: Manager;
     private _categoryManager: CategoryManager;
     private _fileManager: FileManager;
-    private _songManager: SongManager;
     private _lookupTable: LookupTable;
-    constructor(fileManager: FileManager, songManager: SongManager, lookupTable: LookupTable) {
+    constructor(fileManager: FileManager, lookupTable: LookupTable) {
         this._fileManager = fileManager;
-        this._songManager = songManager;
         this._lookupTable = lookupTable;
         this._categoryManager = new CategoryManager(this._fileManager.getCategories());
-        this._lookupTable.create(this._categoryManager.categories);
+        if (this._categoryManager.categories.length !== 0) this._lookupTable.create(this._categoryManager.categories);
     }
 
     // Singleton
-    public static getInstance(fileManager: FileManager, songManager: SongManager, lookupTable: LookupTable): Manager {
+    public static getInstance(fileManager: FileManager, lookupTable: LookupTable): Manager {
         if (!this._instance) {
-            this._instance = new Manager(fileManager, songManager, lookupTable);
+            this._instance = new Manager(fileManager, lookupTable);
         }
         return this._instance;
     }
 
     public onNewSong(song: Song): void {
         const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
-        const { songName, gameName, pointValue, categoryID, categoryName } = song;
-        const songData = this._songManager.createSong(createID(songName), songName, songFilePath, gameName, imageFilePath, pointValue);
-        let category: Category | undefined = this._lookupTable.getCategory(categoryID);
-        if (!category) {
-            let tempCat: CategoryData;
-            if (categoryName && categoryID) {
-                tempCat = {
-                    name: categoryName,
-                    id: categoryID,
-                    songs: [],
-                };
-
-                category = this._categoryManager.createCategory(tempCat);
-            }
-        }
-        this._songManager.addSong(songData, category!);
-        this._categoryManager.updateCategory(category!);
-        this.synchronize();
+        const songData: SongData = this._categoryManager.parseToSongData(song, imageFilePath, songFilePath);
+        let category: CategoryData;
+        const isExistingCategory: boolean = this._lookupTable.exists(song.categoryID);
+        if (isExistingCategory) category = this._lookupTable.getCategory(song.categoryID) as CategoryData;
+        else category = this._categoryManager.createCategory(song.categoryName as string, [songData]);
+        this._categoryManager.addSong(songData, category);
+        this._categoryManager.updateCategory(category);
+        if (this._categoryManager.categories.length !== 0) this._lookupTable.create(this._categoryManager.categories);
+        this._fileManager.sync(this._categoryManager.categories);
     }
 
-    public synchronize(): void {
-        this._lookupTable.create(this._categoryManager.categories);
+    public onNewCategory(category: CategoryData): void {
+        const isExistingCategory: boolean = this._lookupTable.exists(category.id);
+        if (isExistingCategory) return;
+        this._categoryManager.addCategory(category);
+        this._lookupTable.update(category);
         this._fileManager.sync(this._categoryManager.categories);
     }
 
@@ -62,13 +51,12 @@ class Manager {
         return this._categoryManager.categories;
     }
 
-    public findCategory = (categoryID: string): Category | undefined => this._lookupTable.getCategory(categoryID);
+    public findCategory = (categoryID: string): CategoryData | undefined => this._lookupTable.getCategory(categoryID);
 
     public findSong = (songID: string): SongData | undefined => this._lookupTable.getSong(songID);
 }
 const fileManager = new FileManager();
-const songManager = new SongManager();
 const lookupTable = new LookupTable();
-const manager = Manager.getInstance(fileManager, songManager, lookupTable);
+const manager = Manager.getInstance(fileManager, lookupTable);
 
 export default manager;

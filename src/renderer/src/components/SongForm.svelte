@@ -21,6 +21,7 @@
         const imageFile = getFormFileInput(form, 'image-file');
         const songFile = getFormFileInput(form, 'song-file');
         const songData: Song = {
+            id: createID(songName),
             songName,
             gameName,
             songFile: await getFileData(songFile),

@@ -1,6 +1,8 @@
 import Category from '../../shared/classes/Category';
 import CategoryData from '../../shared/interfaces/CategoryData';
 import SongData from '../../shared/interfaces/SongData';
+import createID from '../../shared/functions/createID';
+import type Song from '../../shared/interfaces/Song';
 
 export default class CategoryManager {
     private _categories: Category[];
@@ -22,24 +24,28 @@ export default class CategoryManager {
         });
     }
 
-    public createCategory(data: CategoryData): Category {
-        return this.addCategory(data);
+    public createCategory(name: string, songs: SongData[] = []): Category {
+        const newCategory: CategoryData = {
+            name,
+            id: createID(name),
+            songs,
+        };
+        return this.addCategory(newCategory);
     }
 
     public addCategory(data: CategoryData): Category {
-        const category = this.parseToCategory(data);
-        this._categories.push(category);
-        return category;
+        const newCategory = this.parseToCategory(data);
+        this._categories.push(newCategory);
+        return newCategory;
     }
 
     public parseToCategory(data: CategoryData): Category {
         return new Category(data.name, data.id, data.songs);
     }
 
-    public updateCategory(categoryToUpdate: Category): void {
-        console.log(this._categories);
+    public updateCategory(categoryData: CategoryData): void {
+        const categoryToUpdate = this.parseToCategory(categoryData);
         const index = this._categories.findIndex((category) => category.id == categoryToUpdate.id);
-        console.log(index);
         if (index != -1) {
             this._categories[index] = categoryToUpdate;
         } else return;
@@ -50,5 +56,23 @@ export default class CategoryManager {
             return categoryToDelete.id === category.id;
         });
         if (index === -1) throw new Error('Category not found');
+    }
+
+    public addSong(song: SongData, category: CategoryData): void {
+        category.songs.push(song);
+        this.updateCategory(category);
+    }
+
+    public parseToSongData(song: Song, gameImagePath: string, songPath: string): SongData {
+        const { id, songName, gameName, pointValue } = song;
+        const newSong: SongData = {
+            id,
+            songName,
+            gameName,
+            songPath,
+            gameImagePath,
+            pointValue,
+        };
+        return newSong;
     }
 }

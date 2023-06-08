@@ -1,11 +1,11 @@
 import JSONManager from './JSONManager';
 import CategoryData from '../../shared/interfaces/CategoryData';
-import fs, { ensureDirSync } from 'fs-extra';
+import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
 export default class FileManager {
     private _resourcePath = 'resources';
-    private _jsonPath = `${this._resourcePath}/mock.json`;
+    private _jsonPath = `${this._resourcePath}/categories.json`;
     private _categoriesPath = `${this._resourcePath}/categories`;
     private _jsonManager: JSONManager;
 
@@ -30,7 +30,7 @@ export default class FileManager {
 
     private handle(fileData: FileData, categoryID: string): string {
         const categoryPath = join(this._categoriesPath, categoryID);
-        ensureDirSync(categoryPath);
+        fs.ensureDirSync(categoryPath);
         const filePath = join(categoryPath, fileData.filename);
         fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
         return filePath;
@@ -45,12 +45,7 @@ export default class FileManager {
     }
 
     public sync(categories: CategoryData[]): CategoryData[] {
-        console.log(`Sync Categories: ${categories}`);
         this._jsonManager.write(categories);
         return this.getCategories();
-    }
-
-    public validateFile(filePath: string): boolean {
-        return fs.pathExistsSync(filePath);
     }
 }
