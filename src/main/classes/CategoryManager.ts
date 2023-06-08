@@ -8,8 +8,8 @@ export default class CategoryManager {
     private _categories: Category[];
     private _categoryIndexTable: Table<number>;
     private _songTable: Table<Song>;
-    constructor(categories: Category[]) {
-        this._categories = categories;
+    constructor() {
+        this._categories = [];
         this._categoryIndexTable = {};
         this._songTable = {};
     }

@@ -10,7 +10,7 @@ class Manager {
     private _fileManager: FileManager;
     constructor() {
         this._fileManager = new FileManager();
-        this._categoryManager = new CategoryManager(this._fileManager.getCategories());
+        this._categoryManager = new CategoryManager();
     }
 
     // Singleton
@@ -31,13 +31,13 @@ class Manager {
         const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
         this._categoryManager.addSong(parsedSong, category);
         this._categoryManager.updateCategory(category);
-        this._fileManager.sync(this._categoryManager.categories);
+        this._fileManager.syncJSON(this._categoryManager.categories);
     }
 
     public onNewCategory(category: Category): void {
         if (this._categoryManager.categoryExists(category.id)) return;
         this._categoryManager.addCategory(category);
-        this._fileManager.sync(this._categoryManager.categories);
+        this._fileManager.syncJSON(this._categoryManager.categories);
     }
 
     public onCategoriesRequest(): Category[] {

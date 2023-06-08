@@ -1,4 +1,3 @@
-import JSONManager from './JSONManager';
 import CategoryData from '../../shared/interfaces/Category';
 import fs from 'fs-extra';
 import { join } from 'path';
@@ -7,45 +6,77 @@ export default class FileManager {
     private _resourcePath = 'resources';
     private _jsonPath = `${this._resourcePath}/categories.json`;
     private _categoriesPath = `${this._resourcePath}/categories`;
-    private _jsonManager: JSONManager;
 
     constructor() {
         this.ensureResourceStructure();
-        this._jsonManager = new JSONManager(this._jsonPath);
     }
 
-    private ensureResourceStructure(): void {
-        fs.ensureDirSync(this._resourcePath);
-        fs.ensureFileSync(this._jsonPath);
-        fs.ensureDirSync(this._categoriesPath);
+    private async ensureResourceStructure(): Promise<void> {
+        fs.ensureDir(this._resourcePath);
+        fs.ensureFile(this._jsonPath);
+        fs.ensureDir(this._categoriesPath);
     }
 
-    public getCategories(): CategoryData[] {
+    public async getCategories(): Promise<CategoryData[]> {
         try {
-            return this._jsonManager.read();
+            return await this.readJSON();
         } catch (error: unknown) {
             return [];
         }
     }
 
-    private handle(fileData: FileData, categoryID: string): string {
+    // File Handling
+
+    private async handle(fileData: FileData, categoryID: string): Promise<string> {
         const categoryPath = join(this._categoriesPath, categoryID);
-        fs.ensureDirSync(categoryPath);
         const filePath = join(categoryPath, fileData.filename);
-        fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
+        fs.writeFile(filePath, Buffer.from(fileData.buffer));
         return filePath;
     }
 
     public handleFiles(fileData: FileData[], categoryID: string): string[] {
         const filePaths: string[] = [];
-        fileData.forEach((file) => {
-            filePaths.push(this.handle(file, categoryID));
+        fileData.forEach(async (file) => {
+            filePaths.push(await this.handle(file, categoryID));
         });
         return filePaths;
     }
 
-    public sync(categories: CategoryData[]): CategoryData[] {
-        this._jsonManager.write(categories);
+    public async syncJSON(categories: CategoryData[]): Promise<CategoryData[]> {
+        this.updateJSON(categories);
         return this.getCategories();
+    }
+
+    async readJSON(): Promise<CategoryData[]> {
+        const data = await fs.readFile(this._jsonPath, 'utf8');
+        const categories = JSON.parse(data) as CategoryData[];
+        return categories;
+    }
+
+    async writeJSON(data: CategoryData[]): Promise<void> {
+        const stringifiedData = JSON.stringify(data, null, 4);
+        fs.outputFile(this._jsonPath, stringifiedData);
+    }
+
+    async copy(): Promise<CategoryData[]> {
+        await fs.copyFile(this._jsonPath, `${this._jsonPath}-copy`);
+        const data = await fs.readFile(`${this._jsonPath}-copy`, 'utf-8');
+        const json = JSON.parse(data);
+        return json;
+    }
+
+    async removeCopy(): Promise<void> {
+        await fs.rm(`${this._jsonPath}-copy`);
+    }
+
+    async updateJSON(data: CategoryData[]): Promise<void> {
+        const copyData = await this.copy();
+        try {
+            await this.writeJSON(data);
+            await this.removeCopy();
+        } catch (error: unknown) {
+            await this.writeJSON(copyData);
+            await this.removeCopy();
+        }
     }
 }
