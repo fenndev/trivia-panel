@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Category from '../../../shared/classes/Category';
+    import type Category from '../../../shared/interfaces/Category';
     import getCategories from '../functions/getCategories';
     let categories: Category[];
 

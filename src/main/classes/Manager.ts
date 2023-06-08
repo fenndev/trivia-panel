@@ -1,10 +1,9 @@
 import Song from '../../shared/interfaces/Song';
-import Category from '../../shared/classes/Category';
 import SongData from '../../shared/interfaces/SongData';
 import CategoryManager from './CategoryManager';
 import FileManager from './FileManager';
 import LookupTable from './LookupTable';
-import CategoryData from '../../shared/interfaces/CategoryData';
+import CategoryData from '../../shared/interfaces/Category';
 
 class Manager {
     private static _instance: Manager;
@@ -47,7 +46,7 @@ class Manager {
         this._fileManager.sync(this._categoryManager.categories);
     }
 
-    public onCategoriesRequest(): Category[] {
+    public onCategoriesRequest(): CategoryData[] {
         return this._categoryManager.categories;
     }
 

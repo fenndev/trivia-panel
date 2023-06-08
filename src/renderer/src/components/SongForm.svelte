@@ -4,7 +4,7 @@
     import getFormInputValue from '../functions/getFormInputValue';
     import getFormFileInput from '../functions/getFormFileInput';
     import { getFormSelectValue } from '../functions/getFormInputValue';
-    import type Category from '../../../shared/classes/Category';
+    import type Category from '../../../shared/interfaces/Category';
     import getCategories from '../functions/getCategories';
     import createID from '../../../shared/functions/createID';
     let categories: Category[] = [];

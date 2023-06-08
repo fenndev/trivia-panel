@@ -1,5 +1,5 @@
 import JSONManager from './JSONManager';
-import CategoryData from '../../shared/interfaces/CategoryData';
+import CategoryData from '../../shared/interfaces/Category';
 import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';

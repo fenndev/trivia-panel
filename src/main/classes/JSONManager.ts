@@ -1,5 +1,5 @@
 import fs from 'fs-extra';
-import CategoryData from '../../shared/interfaces/CategoryData';
+import CategoryData from '../../shared/interfaces/Category';
 import handleError from '../functions/handleError';
 
 export default class JSONManager {

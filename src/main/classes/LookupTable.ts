@@ -1,4 +1,4 @@
-import CategoryData from '../../shared/interfaces/CategoryData';
+import CategoryData from '../../shared/interfaces/Category';
 import SongData from '../../shared/interfaces/SongData';
 import Table from '../../shared/interfaces/Table';
 export default class LookupTable {

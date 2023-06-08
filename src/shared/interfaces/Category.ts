@@ -1,8 +1,9 @@
 import type SongData from './SongData';
-interface CategoryData {
+interface Category {
     name: string;
     id: string;
+    pointTotal: number;
     songs: SongData[];
 }
 
-export default CategoryData;
+export default Category;
