@@ -5,38 +5,27 @@ import createID from '../../shared/functions/createID';
 import calculatePointsTotal from '../../shared/functions/calculatePointTotal';
 
 export default class CategoryManager {
-    private _categories: Category[];
     private _categoryTable: Table<Category>;
     private _songTable: Table<Song>;
     constructor() {
-        this._categories = [];
         this._categoryTable = {};
         this._songTable = {};
     }
 
     // Getters and Setters
     get categories(): Category[] {
-        return this._categories;
-    }
-
-    // Lookup Table functionality
-    public syncronizeTables(): void {
-        this._categories.forEach((category: Category) => {
-            if (!this.categoryExists(category.id)) this._categoryTable[category.id] = category;
-            category.songs.forEach((song: Song) => {
-                if (!this.songExists(song.id)) this._songTable[song.id] = song;
-            });
-        });
+        return Object.values(this._categoryTable);
     }
 
     public addCategory(category: Category): void {
-        this._categories.push(category);
-        this.syncronizeTables();
+        if (!this.categoryExists(category.id)) this._categoryTable[category.id] = category;
     }
 
     public addSong(song: Song, category: Category): void {
+        if (!this.categoryExists(category.id)) return;
         category.songs.push(song);
         this._songTable[song.id] = song;
+        if (this.calculatePointTotal(category) != this.calculatePointTotal(this.getCategory(category.id) as Category)) category.pointTotal = this.calculatePointTotal(category);
         this.updateCategory(category);
     }
 
@@ -47,7 +36,7 @@ export default class CategoryManager {
     }
 
     public setCategories(categories: Category[]): void {
-        this._categories = categories;
+        categories.forEach((category) => this.addCategory(category));
     }
 
     public createCategory(name: string, songs: Song[] = []): void {
@@ -61,11 +50,18 @@ export default class CategoryManager {
     }
 
     public updateCategory(newCategory: Category): void {
-        this._categories[newCategory.id] = newCategory;
+        this._categoryTable[newCategory.id] = newCategory;
     }
 
-    public deleteCategory(category: Category): void {
-        delete this._categoryTable[category.id];
+    public deleteCategory(categoryID: string): void {
+        this._categoryTable[categoryID].songs.forEach((song) => {
+            delete this._songTable[song.id];
+        });
+        delete this._categoryTable[categoryID];
+    }
+
+    public deleteSong(songID: string): void {
+        delete this._songTable[songID];
     }
 
     public parseSong(song: Song, gameImagePath: string, songPath: string): ParsedSong {
@@ -99,5 +95,9 @@ export default class CategoryManager {
 
     isRawSong(obj: Song): obj is RawSong {
         return 'songFile' in obj && 'imageFile' in obj;
+    }
+
+    calculatePointTotal(category: Category): number {
+        return category.songs.reduce((a, b) => a + b.pointValue, 0);
     }
 }
