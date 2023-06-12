@@ -3,7 +3,7 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources//icon.png?asset';
 import manager from './classes/Manager';
-import SongData from '../shared/interfaces/Song';
+import { RawSong } from '../shared/interfaces/Song';
 
 function createWindow(): void {
     // Create the browser window.
@@ -72,9 +72,9 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('new-file', (event: Event, songData: SongData) => {
+ipcMain.on('new-file', (event: Event, rawSong: RawSong) => {
     console.log('IPC Main running!');
-    manager.onNewSong(songData);
+    manager.onNewSong(rawSong);
 });
 
 ipcMain.handle('fetch-categories', async (event: Event) => {

@@ -26,6 +26,7 @@
             gameName,
             songFile: await getFileData(songFile),
             imageFile: await getFileData(imageFile),
+            categoryID: categories[categorySelected].id,
             pointValue,
         };
         //@ts-ignore

@@ -1,4 +1,4 @@
-import { Song, ParsedSong } from '../../shared/interfaces/Song';
+import { Song, RawSong, ParsedSong } from '../../shared/interfaces/Song';
 import CategoryManager from './CategoryManager';
 import FileManager from './FileManager';
 import Category from '../../shared/interfaces/Category';
@@ -20,13 +20,13 @@ class Manager {
         return this._instance;
     }
 
-    public onNewSong(song: Song, categoryID: string): void {
+    public onNewSong(song: RawSong): void {
         if (!this._categoryManager.isRawSong(song)) return;
-        if (!this._categoryManager.categoryExists(categoryID)) return;
-        const index = this._categoryManager.getCategoryIndex(categoryID);
+        if (!this._categoryManager.categoryExists(song.categoryID)) return;
+        const index = this._categoryManager.getCategoryIndex(song.categoryID);
         if (!index) return;
         const category: Category = this._categoryManager[index];
-        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], categoryID);
+        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
         const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
         this._categoryManager.addSong(parsedSong, category);
         this._categoryManager.updateCategory(category);

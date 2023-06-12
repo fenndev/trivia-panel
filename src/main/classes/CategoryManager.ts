@@ -6,11 +6,11 @@ import calculatePointsTotal from '../../shared/functions/calculatePointTotal';
 
 export default class CategoryManager {
     private _categories: Category[];
-    private _categoryIndexTable: Table<number>;
+    private _categoryTable: Table<Category>;
     private _songTable: Table<Song>;
     constructor() {
         this._categories = [];
-        this._categoryIndexTable = {};
+        this._categoryTable = {};
         this._songTable = {};
     }
 
@@ -22,10 +22,7 @@ export default class CategoryManager {
     // Lookup Table functionality
     public syncronizeTables(): void {
         this._categories.forEach((category: Category) => {
-            if (!this.categoryExists(category.id)) {
-                const index = this.getCategoryIndex(category.id);
-                if (index) this._categories[index] = category;
-            }
+            if (!this.categoryExists(category.id)) this._categoryTable[category.id] = category;
             category.songs.forEach((song: Song) => {
                 if (!this.songExists(song.id)) this._songTable[song.id] = song;
             });
@@ -64,15 +61,11 @@ export default class CategoryManager {
     }
 
     public updateCategory(newCategory: Category): void {
-        const index: number | undefined = this.getCategoryIndex(newCategory.id);
-        if (index) this._categories[index] = newCategory;
-        else return;
+        this._categories[newCategory.id] = newCategory;
     }
 
     public deleteCategory(category: Category): void {
-        const index = this.getCategoryIndex(category.id);
-        if (index) this._categories.splice(index, 1);
-        else return;
+        delete this._categoryTable[category.id];
     }
 
     public parseSong(song: Song, gameImagePath: string, songPath: string): ParsedSong {
@@ -88,8 +81,8 @@ export default class CategoryManager {
         return newSong;
     }
 
-    getCategoryIndex(key: string): number | undefined {
-        return this._categoryIndexTable[key];
+    getCategory(id: string): Category | undefined {
+        return this._categoryTable[id];
     }
 
     getSong(key: string): Song | undefined {
@@ -101,7 +94,7 @@ export default class CategoryManager {
     }
 
     categoryExists(key: string): boolean {
-        return Object.prototype.hasOwnProperty.call(this._categoryIndexTable, key);
+        return Object.prototype.hasOwnProperty.call(this._categoryTable, key);
     }
 
     isRawSong(obj: Song): obj is RawSong {
