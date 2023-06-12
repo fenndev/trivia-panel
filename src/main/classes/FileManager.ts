@@ -1,4 +1,4 @@
-import CategoryData from '../../shared/interfaces/Category';
+import Category from '../../shared/interfaces/Category';
 import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
@@ -17,7 +17,7 @@ export default class FileManager {
         fs.ensureDir(this._categoriesPath);
     }
 
-    public async getCategories(): Promise<CategoryData[]> {
+    public async getCategories(): Promise<Category[]> {
         try {
             return await this.readJSON();
         } catch (error: unknown) {
@@ -42,23 +42,23 @@ export default class FileManager {
         return filePaths;
     }
 
-    public async syncJSON(categories: CategoryData[]): Promise<CategoryData[]> {
+    public async syncJSON(categories: Category[]): Promise<Category[]> {
         this.updateJSON(categories);
         return this.getCategories();
     }
 
-    async readJSON(): Promise<CategoryData[]> {
+    async readJSON(): Promise<Category[]> {
         const data = await fs.readFile(this._jsonPath, 'utf8');
-        const categories = JSON.parse(data) as CategoryData[];
+        const categories = JSON.parse(data) as Category[];
         return categories;
     }
 
-    async writeJSON(data: CategoryData[]): Promise<void> {
+    async writeJSON(data: Category[]): Promise<void> {
         const stringifiedData = JSON.stringify(data, null, 4);
         fs.outputFile(this._jsonPath, stringifiedData);
     }
 
-    async copy(): Promise<CategoryData[]> {
+    async copy(): Promise<Category[]> {
         await fs.copyFile(this._jsonPath, `${this._jsonPath}-copy`);
         const data = await fs.readFile(`${this._jsonPath}-copy`, 'utf-8');
         const json = JSON.parse(data);
@@ -69,7 +69,7 @@ export default class FileManager {
         await fs.rm(`${this._jsonPath}-copy`);
     }
 
-    async updateJSON(data: CategoryData[]): Promise<void> {
+    async updateJSON(data: Category[]): Promise<void> {
         const copyData = await this.copy();
         try {
             await this.writeJSON(data);
