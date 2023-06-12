@@ -1,5 +1,5 @@
 import Category from '../../shared/interfaces/Category';
-import type { Song, ParsedSong } from '../../shared/interfaces/Song';
+import type { Song, ParsedSong, RawSong } from '../../shared/interfaces/Song';
 import Table from '../../shared/interfaces/Table';
 import createID from '../../shared/functions/createID';
 import calculatePointsTotal from '../../shared/functions/calculatePointTotal';
@@ -102,5 +102,9 @@ export default class CategoryManager {
 
     categoryExists(key: string): boolean {
         return Object.prototype.hasOwnProperty.call(this._categoryIndexTable, key);
+    }
+
+    isRawSong(obj: Song): obj is RawSong {
+        return 'songFile' in obj && 'imageFile' in obj;
     }
 }

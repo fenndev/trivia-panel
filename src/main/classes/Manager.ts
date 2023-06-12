@@ -1,8 +1,7 @@
-import { Song, RawSong, ParsedSong } from '../../shared/interfaces/Song';
+import { Song, ParsedSong } from '../../shared/interfaces/Song';
 import CategoryManager from './CategoryManager';
 import FileManager from './FileManager';
 import Category from '../../shared/interfaces/Category';
-import isRawSong from '../functions/isRawSong';
 
 class Manager {
     private static _instance: Manager;
@@ -22,7 +21,7 @@ class Manager {
     }
 
     public onNewSong(song: Song, categoryID: string): void {
-        if (!isRawSong(song)) return;
+        if (!this._categoryManager.isRawSong(song)) return;
         if (!this._categoryManager.categoryExists(categoryID)) return;
         const index = this._categoryManager.getCategoryIndex(categoryID);
         if (!index) return;
