@@ -95,12 +95,12 @@ export default class CategoryManager {
         return this._songTable[key];
     }
 
-    songExists(key: string): boolean {
-        return Object.prototype.hasOwnProperty.call(this._songTable, key);
+    songExists(id: string): boolean {
+        return !!this._songTable[id];
     }
 
-    categoryExists(key: string): boolean {
-        return Object.prototype.hasOwnProperty.call(this._categoryTable, key);
+    categoryExists(id: string): boolean {
+        return !!this._categoryTable[id];
     }
 
     isRawSong(obj: Song): obj is RawSong {
