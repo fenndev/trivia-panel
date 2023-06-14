@@ -11,16 +11,23 @@ export default class FileManager {
         this.ensureResourceStructure();
     }
 
+    // Handle catastrophic failure and exit gracefully.
     private async ensureResourceStructure(): Promise<void> {
-        fs.ensureDir(this._resourcePath);
-        fs.ensureFile(this._jsonPath);
-        fs.ensureDir(this._categoriesPath);
+        try {
+            await fs.ensureDir(this._resourcePath);
+            await fs.ensureFile(this._jsonPath);
+            await fs.ensureDir(this._categoriesPath);
+        } catch (error: unknown) {
+            console.error('Error while ensuring resource structure: ', error);
+            process.exit(1);
+        }
     }
 
     public async getCategories(): Promise<Category[]> {
         try {
             return await this.readJSON();
         } catch (error: unknown) {
+            console.error('Error parsing JSON: ', error);
             return [];
         }
     }
@@ -28,10 +35,15 @@ export default class FileManager {
     // File Handling
 
     private async handle(fileData: FileData, categoryID: string): Promise<string> {
-        const categoryPath = join(this._categoriesPath, categoryID);
-        const filePath = join(categoryPath, fileData.filename);
-        fs.writeFile(filePath, Buffer.from(fileData.buffer));
-        return filePath;
+        try {
+            const categoryPath = join(this._categoriesPath, categoryID);
+            const filePath = join(categoryPath, fileData.filename);
+            await fs.writeFile(filePath, Buffer.from(fileData.buffer));
+            return filePath;
+        } catch (error: unknown) {
+            console.error('Error handling file: ', error);
+            return '';
+        }
     }
 
     public handleFiles(fileData: FileData[], categoryID: string): string[] {

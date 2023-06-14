@@ -21,14 +21,14 @@ class Manager {
     }
 
     public onNewSong(song: RawSong): void {
-        if (!this._categoryManager.isRawSong(song)) return;
-        if (!this._categoryManager.categoryExists(song.categoryID)) return;
-        const category: Category = this._categoryManager.getCategory(song.categoryID) as Category;
-        const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
-        const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
-        this._categoryManager.addSong(parsedSong, category);
-        this._categoryManager.updateCategory(category);
-        this._fileManager.syncJSON(this._categoryManager.categories);
+        if (this._categoryManager.isRawSong(song) && this._categoryManager.categoryExists(song.categoryID)) {
+            const category: Category = this._categoryManager.getCategory(song.categoryID) as Category;
+            const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
+            const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
+            this._categoryManager.addSong(parsedSong, category);
+            this._categoryManager.updateCategory(category);
+            this._fileManager.syncJSON(this._categoryManager.categories);
+        } else return;
     }
 
     public onNewCategory(category: Category): void {
