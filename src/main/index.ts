@@ -73,12 +73,12 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 
 ipcMain.on('new-file', (event: Event, rawSong: RawSong) => {
-    console.log('IPC Main running!');
+    console.log(event);
     manager.onNewSong(rawSong);
 });
 
 ipcMain.handle('fetch-categories', async (event: Event) => {
-    console.log('Categories requested!');
+    console.log(event);
     return manager.onCategoriesRequest();
 });
 

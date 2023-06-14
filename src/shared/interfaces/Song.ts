@@ -1,4 +1,4 @@
-import FileData from './FileData';
+import type FileData from './FileData';
 
 // Common values between both `RawSong` and `ParsedSong`.
 export interface Song {

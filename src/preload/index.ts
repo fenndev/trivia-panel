@@ -1,11 +1,11 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
-import SongData from '../shared/interfaces/Song';
+import { RawSong } from '../shared/interfaces/Song';
 import CategoryData from '../shared/interfaces/Category';
 
 // Custom APIs for renderer
 const api = {
-    sendFile: (file: SongData): void => {
+    sendFile: (file: RawSong): void => {
         console.log('Running!');
         ipcRenderer.send('new-file', file);
     },

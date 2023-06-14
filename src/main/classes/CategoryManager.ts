@@ -1,45 +1,22 @@
 import Category from '../../shared/interfaces/Category';
-import type { Song, ParsedSong, RawSong } from '../../shared/interfaces/Song';
-import Table from '../../shared/interfaces/Table';
+import type { Song } from '../../shared/interfaces/Song';
 import createID from '../../shared/functions/createID';
 import calculatePointsTotal from '../../shared/functions/calculatePointTotal';
+import { LookupTable } from '../../shared/classes/LookupTable';
 
 export default class CategoryManager {
-    private _categoryTable: Table<Category>;
-    private _songTable: Table<Song>;
+    private _categoryTable: LookupTable<Category>;
     constructor() {
-        this._categoryTable = {};
-        this._songTable = {};
+        this._categoryTable = new LookupTable<Category>();
     }
 
     // Getters and Setters
     get categories(): Category[] {
-        return Object.values(this._categoryTable);
-    }
-
-    public getSongs(categoryID: string): Song[] {
-        if (!this.categoryExists(categoryID)) return [];
-        const category = this.getCategory(categoryID);
-        return category!.songs;
+        return this._categoryTable.getAll();
     }
 
     public addCategory(category: Category): void {
-        if (!this.categoryExists(category.id)) this._categoryTable[category.id] = category;
-    }
-
-    public addSong(song: Song, category: Category): void {
-        if (!this.categoryExists(category.id)) return;
-        category.songs.push(song);
-        this._songTable[song.id] = song;
-        if (this.calculatePointTotal(category) != this.calculatePointTotal(this.getCategory(category.id) as Category)) category.pointTotal = this.calculatePointTotal(category);
-        this.updateCategory(category);
-    }
-
-    public addSongs(songs: Song[], category: Category): void {
-        songs.forEach((song) => {
-            if (this.songExists(song.id)) return;
-            this.addSong(song, category);
-        });
+        this._categoryTable.add(category.id, category);
     }
 
     public setCategories(categories: Category[]): void {
@@ -57,54 +34,21 @@ export default class CategoryManager {
     }
 
     public updateCategory(newCategory: Category): void {
-        if (!this.categoryExists(newCategory.id)) this.createCategory(newCategory.name, newCategory.songs, newCategory.id);
-        this._categoryTable[newCategory.id] = newCategory;
+        if (!this.categoryExists(newCategory.id)) {
+            this.createCategory(newCategory.name, newCategory.songs, newCategory.id);
+        } else this._categoryTable.add(newCategory.id, newCategory);
     }
 
     public deleteCategory(categoryID: string): void {
-        if (!this.categoryExists(categoryID)) return;
-        this._categoryTable[categoryID].songs.forEach((song) => {
-            this.deleteSong(song.id);
-        });
-        delete this._categoryTable[categoryID];
-    }
-
-    public deleteSong(songID: string): void {
-        if (!this.songExists(songID)) return;
-        delete this._songTable[songID];
-    }
-
-    public parseSong(song: Song, gameImagePath: string, songPath: string): ParsedSong {
-        const { id, songName, gameName, pointValue } = song;
-        const newSong: ParsedSong = {
-            id,
-            songName,
-            gameName,
-            songPath,
-            gameImagePath,
-            pointValue,
-        };
-        return newSong;
+        this._categoryTable.delete(categoryID);
     }
 
     getCategory(id: string): Category | undefined {
-        return this._categoryTable[id];
-    }
-
-    getSong(key: string): Song | undefined {
-        return this._songTable[key];
-    }
-
-    songExists(id: string): boolean {
-        return !!this._songTable[id];
+        return this._categoryTable.get(id);
     }
 
     categoryExists(id: string): boolean {
-        return !!this._categoryTable[id];
-    }
-
-    isRawSong(obj: Song): obj is RawSong {
-        return 'songFile' in obj && 'imageFile' in obj;
+        return this._categoryTable.exists(id);
     }
 
     calculatePointTotal(category: Category): number {
