@@ -17,6 +17,12 @@ export default class CategoryManager {
         return Object.values(this._categoryTable);
     }
 
+    public getSongs(categoryID: string): Song[] {
+        if (!this.categoryExists(categoryID)) return [];
+        const category = this.getCategory(categoryID);
+        return category!.songs;
+    }
+
     public addCategory(category: Category): void {
         if (!this.categoryExists(category.id)) this._categoryTable[category.id] = category;
     }
@@ -31,6 +37,7 @@ export default class CategoryManager {
 
     public addSongs(songs: Song[], category: Category): void {
         songs.forEach((song) => {
+            if (this.songExists(song.id)) return;
             this.addSong(song, category);
         });
     }
@@ -39,10 +46,10 @@ export default class CategoryManager {
         categories.forEach((category) => this.addCategory(category));
     }
 
-    public createCategory(name: string, songs: Song[] = []): void {
+    public createCategory(name: string, songs: Song[] = [], id?: string): void {
         const newCategory: Category = {
             name,
-            id: createID(name),
+            id: id ? id : createID(name),
             pointTotal: calculatePointsTotal(songs),
             songs,
         };
@@ -50,17 +57,20 @@ export default class CategoryManager {
     }
 
     public updateCategory(newCategory: Category): void {
+        if (!this.categoryExists(newCategory.id)) this.createCategory(newCategory.name, newCategory.songs, newCategory.id);
         this._categoryTable[newCategory.id] = newCategory;
     }
 
     public deleteCategory(categoryID: string): void {
+        if (!this.categoryExists(categoryID)) return;
         this._categoryTable[categoryID].songs.forEach((song) => {
-            delete this._songTable[song.id];
+            this.deleteSong(song.id);
         });
         delete this._categoryTable[categoryID];
     }
 
     public deleteSong(songID: string): void {
+        if (!this.songExists(songID)) return;
         delete this._songTable[songID];
     }
 

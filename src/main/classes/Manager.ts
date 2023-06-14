@@ -23,9 +23,7 @@ class Manager {
     public onNewSong(song: RawSong): void {
         if (!this._categoryManager.isRawSong(song)) return;
         if (!this._categoryManager.categoryExists(song.categoryID)) return;
-        const index = this._categoryManager.getCategoryIndex(song.categoryID);
-        if (!index) return;
-        const category: Category = this._categoryManager[index];
+        const category: Category = this._categoryManager.getCategory(song.categoryID) as Category;
         const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], song.categoryID);
         const parsedSong: ParsedSong = this._categoryManager.parseSong(song, imageFilePath, songFilePath);
         this._categoryManager.addSong(parsedSong, category);
@@ -43,7 +41,7 @@ class Manager {
         return this._categoryManager.categories;
     }
 
-    public findCategoryIndex = (categoryID: string): number | undefined => this._categoryManager.getCategoryIndex(categoryID);
+    public findCategoryIndex = (categoryID: string): Category | undefined => this._categoryManager.getCategory(categoryID);
 
     public findSong = (songID: string): Song | undefined => this._categoryManager.getSong(songID);
 }
