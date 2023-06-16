@@ -1,4 +1,5 @@
 import Category from '../../shared/interfaces/Category';
+import Collection from '../../shared/classes/Collection';
 import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
@@ -54,9 +55,8 @@ export default class FileManager {
         return filePaths;
     }
 
-    public async syncJSON(categories: Category[]): Promise<Category[]> {
+    public syncJSON(categories: Collection): void {
         this.updateJSON(categories);
-        return this.getCategories();
     }
 
     async readJSON(): Promise<Category[]> {
@@ -65,12 +65,12 @@ export default class FileManager {
         return categories;
     }
 
-    async writeJSON(data: Category[]): Promise<void> {
+    async writeJSON(data: Collection): Promise<void> {
         const stringifiedData = JSON.stringify(data, null, 4);
         fs.outputFile(this._jsonPath, stringifiedData);
     }
 
-    async copy(): Promise<Category[]> {
+    async copy(): Promise<Collection> {
         await fs.copyFile(this._jsonPath, `${this._jsonPath}-copy`);
         const data = await fs.readFile(`${this._jsonPath}-copy`, 'utf-8');
         const json = JSON.parse(data);
@@ -81,7 +81,7 @@ export default class FileManager {
         await fs.rm(`${this._jsonPath}-copy`);
     }
 
-    async updateJSON(data: Category[]): Promise<void> {
+    async updateJSON(data: Collection): Promise<void> {
         const copyData = await this.copy();
         try {
             await this.writeJSON(data);

@@ -2,7 +2,6 @@ import type FileData from './FileData';
 
 // Common values between both `RawSong` and `ParsedSong`.
 export interface Song {
-    id: string;
     songName: string;
     gameName: string;
     pointValue: number;
@@ -15,7 +14,6 @@ export interface RawSong extends Song {
     // raw file data for back-end file manipulation
     songFile: FileData;
     imageFile: FileData;
-    categoryID: string;
 }
 
 // Represents a song as having been parsed from a

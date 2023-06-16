@@ -1,5 +1,4 @@
 import type Category from '../../../shared/interfaces/Category';
-import calculatePointsTotal from '../../../shared/functions/calculatePointTotal';
 
 export default async function getCategories(): Promise<Category[]> {
     const categories: Category[] = [];
@@ -9,7 +8,6 @@ export default async function getCategories(): Promise<Category[]> {
         categoryData.forEach(({ name, id, songs }) => {
             const newCategory: Category = {
                 name,
-                id,
                 pointTotal: calculatePointsTotal(songs),
                 songs,
             };

@@ -1,54 +1,50 @@
 import { writable } from 'svelte/store';
 import type Category from '../../../shared/interfaces/Category';
 import type { RawSong } from '../../../shared/interfaces/Song';
+import Collection from '../../../shared/classes/Collection';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createCategories() {
-    const { subscribe, set, update } = writable<Category[]>([]);
+    const _collection = new Collection();
+    const { subscribe, set, update } = writable<Collection>(_collection);
 
     return {
         subscribe,
-        updateCategories: (categories: Category[]): void => set(categories),
-        addCategory: (category: Category): void => update((categories) => [...categories, category]),
-        editCategory: (category: Category): void =>
-            update((categories) => {
-                const index = categories.findIndex((c) => c.id === category.id);
-                if (index >= 0) {
-                    const updatedCategory = { ...categories[index], ...category };
-                    categories[index] = updatedCategory;
+        updateCategories: (collection: Collection): void => set(collection),
+        addCategory: (category: Category): void => {
+            _collection.addCategory(category);
+            update(() => _collection);
+        },
+        editCategory: (id: string, category: Category): void => {
+            _collection.updateCategory(id, category);
+            update(() => _collection);
+        },
+        removeCategory: (categoryID: string): void => {
+            _collection.deleteCategory(categoryID);
+            update(() => _collection);
+        },
+        addSong: (song: RawSong, categoryID: string): void => {
+            _collection.addSong(song, categoryID);
+            update(() => _collection);
+        },
+        editSong: (song: RawSong, categoryID: string): void => {
+            const category = _collection.getCategory(categoryID);
+            if (category) {
+                const songID = _collection.parseID(song.songName);
+                const currentSong = _collection.getSong(songID, categoryID);
+                if (currentSong) {
+                    const updatedSong = { ...currentSong, ...song };
+                    _collection.deleteSong(songID, categoryID);
+                    _collection.addSong(updatedSong, categoryID);
                 }
-                return categories;
-            }),
-        removeCategory: (categoryID: string): void => update((categories) => categories.filter((category) => category.id !== categoryID)),
-        addSong: (song: RawSong): void =>
-            update((categories) => {
-                const index = categories.findIndex((c) => c.id === song.categoryID);
-                if (index >= 0) {
-                    categories[index].songs.push(song);
-                }
-                return categories;
-            }),
-        editSong: (song: RawSong): void =>
-            update((categories) => {
-                for (const category of categories) {
-                    const songIndex = category.songs.findIndex((s) => s.id === song.id);
-                    if (songIndex >= 0) {
-                        const updatedSong = { ...category.songs[songIndex], ...song };
-                        category.songs[songIndex] = updatedSong;
-                        break;
-                    }
-                }
-                return categories;
-            }),
-        removeSong: (categoryID: string, songID: string): void =>
-            update((categories) => {
-                const index = categories.findIndex((c) => c.id === categoryID);
-                if (index >= 0) {
-                    categories[index].songs = categories[index].songs.filter((song) => song.id !== songID);
-                }
-                return categories;
-            }),
-        reset: (): void => set([]),
+            }
+            update(() => _collection);
+        },
+        removeSong: (songID: string, categoryID: string): void => {
+            _collection.deleteSong(songID, categoryID);
+            update(() => _collection);
+        },
+        reset: (): void => set(new Collection()),
     };
 }
 

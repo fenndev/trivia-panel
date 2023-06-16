@@ -5,7 +5,7 @@
     "src/renderer/src/**/*",
     "src/renderer/src/**/*.svelte",
     "src/preload/*.d.ts",
-    "src/shared/**/*" ],
+    "src/shared/**/*", "src/shared/interfaces/Collection.ts" ],
   "compilerOptions": {
     "ignoreDeprecations": "5.0",
     "importsNotUsedAsValues": "error",
