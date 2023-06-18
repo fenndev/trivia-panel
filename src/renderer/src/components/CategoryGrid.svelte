@@ -1,4 +1,4 @@
-<script lang="ts">
+<!-- <script lang="ts">
     import type Category from '../../../shared/interfaces/Category';
     import getCategories from '../functions/getCategories';
     import isParsedSong from '../functions/isParsedSong';
@@ -22,4 +22,4 @@
             {/each}
         {/each}
     {/if}
-</main>
+</main> -->

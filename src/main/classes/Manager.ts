@@ -25,7 +25,7 @@ class Manager {
         const [imageFilePath, songFilePath] = this._fileManager.handleFiles([song.imageFile, song.songFile], categoryID);
         const parsedSong: ParsedSong = toParsedSong(song, imageFilePath, songFilePath);
         this._collection.addSong(parsedSong, categoryID);
-        this._fileManager.syncJSON(this._collection);
+        this._fileManager.syncJSON(this._collection.toJSON());
         // if (this._songManager.isRawSong(song) && this._categoryManager.categoryExists(song.categoryID)) {
         //     const category: Category = this._categoryManager.getCategory(song.categoryID) as Category;
         //
@@ -38,7 +38,7 @@ class Manager {
 
     public onNewCategory(category: Category): void {
         this._collection.addCategory(category);
-        this._fileManager.syncJSON(this._collection);
+        this._fileManager.syncJSON(this._collection.toJSON());
         // if (this._categoryManager.categoryExists(category.id)) return;
         // this._categoryManager.addCategory(category);
         // this._fileManager.syncJSON(this._categoryManager.categories);

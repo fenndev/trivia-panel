@@ -1,11 +1,10 @@
 <script lang="ts">
-    import type { RawSong } from '../../../shared/interfaces/Song';
+    import type { Song, RawSong } from '../../../shared/interfaces/Song';
     import getFileData from '../functions/getFileData';
     import getFormInputValue from '../functions/getFormInputValue';
     import getFormFileInput from '../functions/getFormFileInput';
+    import { categories } from '../functions/store';
     import type Category from '../../../shared/interfaces/Category';
-    import getCategories from '../functions/getCategories';
-    let categories: Category[] = [];
 
     async function submitSong(event: Event) {
         const form = event.currentTarget as HTMLFormElement;
@@ -22,8 +21,17 @@
             imageFile: await getFileData(imageFile),
             pointValue,
         };
+        const categoryID = $categories.parseID(categorySelected);
+        const category: Category = {
+            name: categorySelected,
+            pointTotal: 0,
+            songs: new Map<string, Song>(),
+        };
         //@ts-ignore
-        window.api.sendFile(songData);
+        window.api.addCategory(category);
+        //@ts-ignore
+        window.api.sendFile(songData, categoryID);
+        $categories.addSong(songData, categoryID);
     }
 </script>
 

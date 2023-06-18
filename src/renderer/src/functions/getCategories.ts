@@ -1,19 +1,11 @@
-import type Category from '../../../shared/interfaces/Category';
+import Collection from '../../../shared/classes/Collection';
 
-export default async function getCategories(): Promise<Category[]> {
-    const categories: Category[] = [];
+export default async function getCategories(): Promise<Collection> {
     //@ts-ignore dfafd
-    const categoryData: CategoryData[] = await window.api.fetchCategories();
-    if (categoryData) {
-        categoryData.forEach(({ name, id, songs }) => {
-            const newCategory: Category = {
-                name,
-                pointTotal: calculatePointsTotal(songs),
-                songs,
-            };
-            categories.push(newCategory);
-        });
-        return categories;
+    const data = await window.api.fetchCategories();
+    if (data) {
+        const collection: Collection = structuredClone(data);
+        return collection;
     }
-    return [];
+    return new Collection();
 }

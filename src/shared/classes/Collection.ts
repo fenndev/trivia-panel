@@ -1,5 +1,5 @@
-import Category from '../interfaces/Category';
-import { Song } from '../interfaces/Song';
+import type Category from '../interfaces/Category';
+import type { Song, ParsedSong } from '../interfaces/Song';
 
 export default class Collection {
     private _collection: Map<string, Category>;
@@ -81,5 +81,29 @@ export default class Collection {
         if (category) {
             category.songs.delete(songID);
         }
+    }
+
+    toJSON(): object {
+        const collection = {};
+        this._collection.forEach((value, key) => {
+            console.log('Running!');
+            collection[key] = {
+                name: value.name,
+                pointTotal: value.pointTotal,
+                songs: Array.from(value.songs.values()).reduce((acc, song) => {
+                    const { songName, gameName, songPath, gameImagePath, pointValue } = song as ParsedSong;
+                    acc[this.parseID(songName)] = {
+                        songName,
+                        gameName,
+                        songPath,
+                        gameImagePath,
+                        pointValue,
+                    };
+                    console.log(acc);
+                    return acc;
+                }, {}),
+            };
+        });
+        return collection;
     }
 }

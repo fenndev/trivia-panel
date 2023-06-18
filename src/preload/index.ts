@@ -1,15 +1,20 @@
 import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 import { RawSong } from '../shared/interfaces/Song';
-import CategoryData from '../shared/interfaces/Category';
+import type Category from '../shared/interfaces/Category';
+import type Collection from '../shared/classes/Collection';
 
 // Custom APIs for renderer
 const api = {
-    sendFile: (file: RawSong): void => {
+    sendFile: (file: RawSong, categoryID: string): void => {
         console.log('Running!');
-        ipcRenderer.send('new-file', file);
+        ipcRenderer.send('new-file', file, categoryID);
     },
-    fetchCategories: async (): Promise<CategoryData[]> => {
+    addCategory: (category: Category): void => {
+        console.log('Adding category: ', category);
+        ipcRenderer.send('new-category', category);
+    },
+    fetchCategories: async (): Promise<Collection> => {
         return await ipcRenderer.invoke('fetch-categories');
     },
 };

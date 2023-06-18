@@ -38,6 +38,7 @@ export default class FileManager {
     private async handle(fileData: FileData, categoryID: string): Promise<string> {
         try {
             const categoryPath = join(this._categoriesPath, categoryID);
+            await fs.ensureDir(categoryPath);
             const filePath = join(categoryPath, fileData.filename);
             await fs.writeFile(filePath, Buffer.from(fileData.buffer));
             return filePath;
@@ -55,8 +56,8 @@ export default class FileManager {
         return filePaths;
     }
 
-    public syncJSON(categories: Collection): void {
-        this.updateJSON(categories);
+    public syncJSON(data: object): void {
+        this.writeJSON(data);
     }
 
     async readJSON(): Promise<Category[]> {
@@ -65,9 +66,11 @@ export default class FileManager {
         return categories;
     }
 
-    async writeJSON(data: Collection): Promise<void> {
+    async writeJSON(data: object): Promise<void> {
+        console.log(data);
         const stringifiedData = JSON.stringify(data, null, 4);
-        fs.outputFile(this._jsonPath, stringifiedData);
+        console.log(stringifiedData);
+        await fs.outputFile(this._jsonPath, stringifiedData);
     }
 
     async copy(): Promise<Collection> {
@@ -81,7 +84,7 @@ export default class FileManager {
         await fs.rm(`${this._jsonPath}-copy`);
     }
 
-    async updateJSON(data: Collection): Promise<void> {
+    async updateJSON(data: object): Promise<void> {
         const copyData = await this.copy();
         try {
             await this.writeJSON(data);

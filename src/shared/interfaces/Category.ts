@@ -1,8 +1,7 @@
 import type { Song } from './Song';
-interface Category {
+
+export default interface Category {
     name: string;
     pointTotal: number;
     songs: Map<string, Song>;
 }
-
-export default Category;

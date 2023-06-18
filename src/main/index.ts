@@ -4,6 +4,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources//icon.png?asset';
 import manager from './classes/Manager';
 import { RawSong } from '../shared/interfaces/Song';
+import Category from '../shared/interfaces/Category';
 
 function createWindow(): void {
     // Create the browser window.
@@ -72,14 +73,16 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 
-ipcMain.on('new-file', (event: Event, rawSong: RawSong) => {
-    console.log(event);
-    manager.onNewSong(rawSong);
+ipcMain.on('new-file', (event: Event, rawSong: RawSong, categoryID: string) => {
+    manager.onNewSong(rawSong, categoryID);
+});
+
+ipcMain.on('new-category', (event: Event, category: Category) => {
+    manager.onNewCategory(category);
 });
 
 ipcMain.handle('fetch-categories', async (event: Event) => {
-    console.log(event);
-    return manager.onCategoriesRequest();
+    return manager.collection;
 });
 
 // Disable GPU-related errors on dev machine
