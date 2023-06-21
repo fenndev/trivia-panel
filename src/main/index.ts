@@ -82,7 +82,7 @@ ipcMain.on('new-category', (event: Event, category: Category) => {
 });
 
 ipcMain.handle('fetch-categories', async (event: Event) => {
-    return manager.collection;
+    return await manager.getCollection();
 });
 
 // Disable GPU-related errors on dev machine

@@ -1,5 +1,6 @@
 import type Category from '../interfaces/Category';
-import type { Song, ParsedSong } from '../interfaces/Song';
+import type { Song } from '../interfaces/Song';
+import parseID from '../functions/parseID';
 
 export default class Collection {
     private _collection: Map<string, Category>;
@@ -8,25 +9,18 @@ export default class Collection {
         this._collection = new Map<string, Category>();
     }
 
-    public parseID(name: string): string {
-        return name
-            .toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^a-z0-9-]/g, '');
-    }
-
     // Category Functions
 
     getCategory(id: string): Category | undefined {
         return this._collection.get(id);
     }
 
-    get categories(): Category[] {
+    getCategories(): Category[] {
         return Array.from(this._collection.values());
     }
 
     addCategory(category: Category, id?: string): void {
-        if (!id) this._collection.set(this.parseID(category.name), category);
+        if (!id) this._collection.set(parseID(category.name), category);
         else this._collection.set(id, category);
     }
 
@@ -47,11 +41,11 @@ export default class Collection {
         this._collection.clear();
     }
 
-    calculatePointTotal(categoryID: string): void {
+    calculatePointTotal(categoryID: string): number {
         const category = this.getCategory(categoryID);
-        if (!category) return;
+        if (!category) return 0;
         const songs = Array.from(category.songs.values());
-        category.pointTotal = songs.reduce((a, b) => a + b.pointValue, 0);
+        return songs.reduce((a, b) => a + b.pointValue, 0);
     }
 
     // Song Functions
@@ -71,7 +65,7 @@ export default class Collection {
     addSong(song: Song, categoryID: string): void {
         const category = this.getCategory(categoryID);
         if (category) {
-            const id = this.parseID(song.songName);
+            const id = parseID(song.songName);
             category.songs.set(id, song);
         }
     }
@@ -81,29 +75,5 @@ export default class Collection {
         if (category) {
             category.songs.delete(songID);
         }
-    }
-
-    toJSON(): object {
-        const collection = {};
-        this._collection.forEach((value, key) => {
-            console.log('Running!');
-            collection[key] = {
-                name: value.name,
-                pointTotal: value.pointTotal,
-                songs: Array.from(value.songs.values()).reduce((acc, song) => {
-                    const { songName, gameName, songPath, gameImagePath, pointValue } = song as ParsedSong;
-                    acc[this.parseID(songName)] = {
-                        songName,
-                        gameName,
-                        songPath,
-                        gameImagePath,
-                        pointValue,
-                    };
-                    console.log(acc);
-                    return acc;
-                }, {}),
-            };
-        });
-        return collection;
     }
 }

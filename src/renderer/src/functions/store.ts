@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 import type Category from '../../../shared/interfaces/Category';
 import type { RawSong } from '../../../shared/interfaces/Song';
 import Collection from '../../../shared/classes/Collection';
+import parseID from '../../../shared/functions/parseID';
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function createCategories() {
@@ -30,7 +31,7 @@ function createCategories() {
         editSong: (song: RawSong, categoryID: string): void => {
             const category = _collection.getCategory(categoryID);
             if (category) {
-                const songID = _collection.parseID(song.songName);
+                const songID = parseID(song.songName);
                 const currentSong = _collection.getSong(songID, categoryID);
                 if (currentSong) {
                     const updatedSong = { ...currentSong, ...song };

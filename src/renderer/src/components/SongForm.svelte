@@ -5,6 +5,7 @@
     import getFormFileInput from '../functions/getFormFileInput';
     import { categories } from '../functions/store';
     import type Category from '../../../shared/interfaces/Category';
+    import parseID from '../../../shared/functions/parseID';
 
     async function submitSong(event: Event) {
         const form = event.currentTarget as HTMLFormElement;
@@ -21,7 +22,7 @@
             imageFile: await getFileData(imageFile),
             pointValue,
         };
-        const categoryID = $categories.parseID(categorySelected);
+        const categoryID = parseID(categorySelected);
         const category: Category = {
             name: categorySelected,
             pointTotal: 0,

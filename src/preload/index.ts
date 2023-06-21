@@ -2,7 +2,7 @@ import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 import { RawSong } from '../shared/interfaces/Song';
 import type Category from '../shared/interfaces/Category';
-import type Collection from '../shared/classes/Collection';
+import ParsedCategories from '../shared/interfaces/ParsedCategories';
 
 // Custom APIs for renderer
 const api = {
@@ -14,7 +14,7 @@ const api = {
         console.log('Adding category: ', category);
         ipcRenderer.send('new-category', category);
     },
-    fetchCategories: async (): Promise<Collection> => {
+    fetchCategories: async (): Promise<ParsedCategories> => {
         return await ipcRenderer.invoke('fetch-categories');
     },
 };

@@ -1,5 +1,4 @@
-import Category from '../../shared/interfaces/Category';
-import Collection from '../../shared/classes/Collection';
+import ParsedCategories from '../../shared/interfaces/ParsedCategories';
 import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
@@ -19,39 +18,33 @@ export default class FileManager {
             await fs.ensureFile(this._jsonPath);
             await fs.ensureDir(this._categoriesPath);
         } catch (error: unknown) {
-            console.error('Error while ensuring resource structure: ', error);
             process.exit(1);
         }
     }
 
-    public async getCategories(): Promise<Category[]> {
+    public async getCategories(): Promise<ParsedCategories> {
         try {
             return await this.readJSON();
         } catch (error: unknown) {
             console.error('Error parsing JSON: ', error);
-            return [];
+            return {};
         }
     }
 
     // File Handling
 
-    private async handle(fileData: FileData, categoryID: string): Promise<string> {
-        try {
-            const categoryPath = join(this._categoriesPath, categoryID);
-            await fs.ensureDir(categoryPath);
-            const filePath = join(categoryPath, fileData.filename);
-            await fs.writeFile(filePath, Buffer.from(fileData.buffer));
-            return filePath;
-        } catch (error: unknown) {
-            console.error('Error handling file: ', error);
-            return '';
-        }
+    private handle(fileData: FileData, categoryID: string): string {
+        const categoryPath = join(this._categoriesPath, categoryID);
+        fs.ensureDirSync(categoryPath);
+        const filePath = join(categoryPath, fileData.filename);
+        fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
+        return filePath;
     }
 
     public handleFiles(fileData: FileData[], categoryID: string): string[] {
         const filePaths: string[] = [];
-        fileData.forEach(async (file) => {
-            filePaths.push(await this.handle(file, categoryID));
+        fileData.forEach((file) => {
+            filePaths.push(this.handle(file, categoryID));
         });
         return filePaths;
     }
@@ -60,9 +53,9 @@ export default class FileManager {
         this.writeJSON(data);
     }
 
-    async readJSON(): Promise<Category[]> {
+    async readJSON(): Promise<ParsedCategories> {
         const data = await fs.readFile(this._jsonPath, 'utf8');
-        const categories = JSON.parse(data) as Category[];
+        const categories = JSON.parse(data) as ParsedCategories;
         return categories;
     }
 
@@ -73,7 +66,7 @@ export default class FileManager {
         await fs.outputFile(this._jsonPath, stringifiedData);
     }
 
-    async copy(): Promise<Collection> {
+    async copy(): Promise<ParsedCategories> {
         await fs.copyFile(this._jsonPath, `${this._jsonPath}-copy`);
         const data = await fs.readFile(`${this._jsonPath}-copy`, 'utf-8');
         const json = JSON.parse(data);
