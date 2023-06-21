@@ -4,3 +4,4 @@ out
 *.log*
 resources/categories
 resources/categories.json
+src/renderer/public/*

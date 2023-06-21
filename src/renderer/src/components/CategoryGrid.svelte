@@ -10,7 +10,15 @@
         parser = new Parser();
         collection = parser.jsonToCollection(await getCategories());
         categories = collection.getCategories();
-        console.log(categories);
+        Array.from(categories.values()).forEach((category) => {
+            console.log('Category: ');
+            console.log(category);
+            console.log('Songs:');
+            console.log(category.songs);
+            Array.from(category.songs.values()).forEach((song) => {
+                console.log(song);
+            });
+        });
     };
 </script>
 
@@ -19,8 +27,7 @@
         {#each categories as category}
             <h1>{category.name}</h1>
             <h2>{category.pointTotal}</h2>
-            {#each [...category.songs.entries()] as [key, value]}
-                {console.log(key)}
+            {#each Array.from(category.songs.values()) as value}
                 <h3>{value.songName}, from {value.gameName}</h3>
                 <h4>{value.pointValue}</h4>
                 {#if parser.isParsedSong(value)}

@@ -3,9 +3,10 @@ import fs from 'fs-extra';
 import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
 export default class FileManager {
+    private _rendererPublicPath = './src/renderer/public';
     private _resourcePath = 'resources';
     private _jsonPath = `${this._resourcePath}/categories.json`;
-    private _categoriesPath = `${this._resourcePath}/categories`;
+    private _categoriesPath = `${this._rendererPublicPath}/categories`;
 
     constructor() {
         this.ensureResourceStructure();
@@ -14,6 +15,7 @@ export default class FileManager {
     // Handle catastrophic failure and exit gracefully.
     private async ensureResourceStructure(): Promise<void> {
         try {
+            await fs.ensureDir(this._rendererPublicPath);
             await fs.ensureDir(this._resourcePath);
             await fs.ensureFile(this._jsonPath);
             await fs.ensureDir(this._categoriesPath);

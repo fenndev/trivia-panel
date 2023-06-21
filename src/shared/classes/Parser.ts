@@ -34,11 +34,9 @@ export default class Parser {
         values.forEach((value) => {
             if (this.isCategory(value)) {
                 const id = parseID(value.name);
-                collection.addCategory(value, id);
-                const songs = Object.values(data[id].songs);
-                songs.forEach((song) => {
-                    if (this.isParsedSong(song)) collection.addSong(song, id);
-                });
+                const songs = new Map(Object.entries(value.songs));
+                const category: Category = { ...value, songs };
+                collection.addCategory(category, id);
             }
         });
         return collection;
