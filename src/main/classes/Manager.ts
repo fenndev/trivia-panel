@@ -9,11 +9,18 @@ class Manager {
     private static _instance: Manager;
     private _fileManager: FileManager;
     private _parser: Parser;
-    private _collection: Collection;
+    private _collection!: Collection;
     private constructor() {
         this._fileManager = new FileManager();
         this._parser = new Parser();
-        this._collection = new Collection();
+        this.getCollection()
+            .then((collection: ParsedCategories) => {
+                if (collection) this._collection = this._parser.jsonToCollection(collection);
+                else this._collection = new Collection();
+            })
+            .catch((err) => {
+                this._collection = new Collection();
+            });
     }
 
     // Singleton

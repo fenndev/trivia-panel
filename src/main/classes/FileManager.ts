@@ -4,9 +4,10 @@ import { join } from 'path';
 import FileData from '../../shared/interfaces/FileData';
 export default class FileManager {
     private _rendererPublicPath = './src/renderer/public';
+    private _categoryPublicPath = `${this._rendererPublicPath}/categories`;
     private _resourcePath = 'resources';
     private _jsonPath = `${this._resourcePath}/categories.json`;
-    private _categoriesPath = `${this._rendererPublicPath}/categories`;
+    private _categoriesPath = `/categories`;
 
     constructor() {
         this.ensureResourceStructure();
@@ -18,7 +19,7 @@ export default class FileManager {
             await fs.ensureDir(this._rendererPublicPath);
             await fs.ensureDir(this._resourcePath);
             await fs.ensureFile(this._jsonPath);
-            await fs.ensureDir(this._categoriesPath);
+            await fs.ensureDir(this._categoryPublicPath);
         } catch (error: unknown) {
             process.exit(1);
         }
@@ -36,11 +37,11 @@ export default class FileManager {
     // File Handling
 
     private handle(fileData: FileData, categoryID: string): string {
-        const categoryPath = join(this._categoriesPath, categoryID);
+        const categoryPath = join(this._categoryPublicPath, categoryID);
         fs.ensureDirSync(categoryPath);
         const filePath = join(categoryPath, fileData.filename);
         fs.writeFileSync(filePath, Buffer.from(fileData.buffer));
-        return filePath;
+        return join(this._categoriesPath, categoryID, fileData.filename);
     }
 
     public handleFiles(fileData: FileData[], categoryID: string): string[] {

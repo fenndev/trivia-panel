@@ -32,9 +32,16 @@
                 <h4>{value.pointValue}</h4>
                 {#if parser.isParsedSong(value)}
                     <img src={value.gameImagePath} alt="Art of the video game" />
-                    <audio src={value.songPath} />
+                    <audio src={value.songPath} controls />
                 {/if}
             {/each}
         {/each}
     {/if}
 </main>
+
+<style>
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
